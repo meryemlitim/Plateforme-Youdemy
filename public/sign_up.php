@@ -1,3 +1,34 @@
+<?php 
+
+require_once "../classes/User.php";
+
+$user = new users();
+
+// if(!empty($_SESSION["user_id"])){
+//   header("Location:admin.php");
+// }
+
+
+if(isset($_POST["submit"])){
+
+  $username = $_POST["username"];
+  $email = $_POST["email"];
+  $password = $_POST["password"];
+  $confirmpassword = $_POST["confirmpassword"];
+  $role = $_POST["role"];
+
+  $result = $user->signup($username , $email , $password , $confirmpassword,$role);
+
+  if($result == 1){
+      echo "<script>alert('Register Succeful');</script>";
+  }else{
+      echo '<script>alert("'.$result.'");</script>';
+  }
+}
+
+?>
+
+
 <!doctype html>
 <html>
 

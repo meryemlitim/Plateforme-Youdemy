@@ -17,7 +17,7 @@
     <!-- Header Start -->
     <div class="relative bg-cover bg-center h-[600px] w-full" style="background-image: url('https://ici.net.au/blog/wp-content/uploads/2022/01/Study-Tips.jpg'); margin-bottom: 90px;">
         <!-- Dark overlay -->
-        <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
 
         <!-- Content -->
         <div class="relative z-10 text-center text-white py-28">
@@ -29,7 +29,7 @@
             <!-- Search -->
             <div class="mt-10 max-w-3xl mx-auto">
                 <div class="flex shadow-lg">
-                    <input type="text" class="flex-1 border-t border-b border-gray-300 px-6 py-4 text-lg" placeholder="Keyword">
+                    <input type="text" class="flex-1 border-t border-b border-gray-300 px-6 py-4 text-lg" placeholder="Search Your Course...">
                     <button class="bg-blue-600 text-white px-6 py-4 rounded-r-md text-lg font-semibold hover:bg-blue-700">Search</button>
                 </div>
             </div>

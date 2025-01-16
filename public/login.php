@@ -1,3 +1,44 @@
+<?php 
+
+  require_once "../classes/User.php";
+
+  $user = new users();
+
+  // if(!empty($_SESSION["user_id"])){
+  //   header("Location:admin.php");
+  // }
+
+  if(isset($_POST["submit"])){
+
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+
+    $result = $user->login($email , $password);
+
+    if($result){
+
+      $_SESSION["user_id"] = $result;
+      $res = $user->getUser($_SESSION["user_id"]);
+
+      if($res["role"] == "admin"){
+        header("Location:admin.php");
+      }else if($res["role"] == "student"){
+        header("Location:student.php");
+      }else{
+        header("Location:teacher.php");
+
+
+      }
+
+    }else{
+      echo '<script>alert("Incorrect email or password");</script>';
+
+    }
+  }
+
+
+?>
+
 <!doctype html>
 <html>
 
