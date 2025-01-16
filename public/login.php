@@ -4,9 +4,9 @@
 
   $user = new users();
 
-  // if(!empty($_SESSION["user_id"])){
-  //   header("Location:admin.php");
-  // }
+  if(!empty($_SESSION["user_id"])){
+    header("Location:admin.php");
+  }
 
   if(isset($_POST["submit"])){
 
@@ -21,10 +21,14 @@
       $res = $user->getUser($_SESSION["user_id"]);
 
       if($res["role"] == "admin"){
+        $_SESSION["role"] = "admin";
+
         header("Location:admin.php");
       }else if($res["role"] == "student"){
-        header("Location:student.php");
+        $_SESSION["role"] = "student";
+        header("Location:index.php");
       }else{
+        $_SESSION["role"] = "teacher";
         header("Location:teacher.php");
 
 
@@ -58,7 +62,7 @@
         <div class="max-w-md w-full">
          
           <div class="p-8 rounded-2xl bg-white shadow">
-            <h2 class="text-gray-800 text-center text-2xl font-bold">Sign in</h2>
+            <h2 class="text-gray-800 text-center text-2xl font-bold">LOGIN</h2>
             <form class="mt-8 space-y-4" method="post" autocomplete="off">
               <div>
                 <label class="text-gray-800 text-sm mb-2 block">Email</label>
