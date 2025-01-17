@@ -23,8 +23,8 @@ echo '</pre>';
                 <div class="flex justify-end gap-4 !mt-8">
                     <button type="button" id="ajouteCancelQuiz"
                         class="px-6 py-3 rounded-lg text-gray-800 text-sm border-none outline-none tracking-wide bg-gray-200 hover:bg-gray-300">Cancel</button>
-                        <input type="text" value="<?php  $update_tag["id_tag"]?>">
-                    <button type="submit" name="update_tag" value="<?php  $update_tag["id_tag"]?>"
+                        <input type="text" value="<?php echo $update_tag["id_tag"]?>">
+                    <button type="submit" name="update_tag" value="<?php echo $update_tag["id_tag"]?>"
                         class="px-6 py-3 rounded-lg text-white text-sm border-none outline-none tracking-wide bg-blue-600 hover:bg-blue-700">Ajouter</button>
                 </div>
 

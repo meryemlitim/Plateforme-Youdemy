@@ -7,7 +7,7 @@ class db{
     private $DB_host='localhost';
     private $DB_user='root';
     private $DB_pass='';
-    private $DB_name='YOUDEMY';
+    private $DB_name='db_YOUDEMY';
 
     protected function connect(){
         try{

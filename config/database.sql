@@ -1,6 +1,6 @@
 -- the database
-CREATE DATABASE YOUDEMY;
-USE YOUDEMY;
+CREATE DATABASE db_YOUDEMY;
+USE db_YOUDEMY;
 
 -- USER Table 
 CREATE TABLE users(
@@ -17,7 +17,7 @@ CREATE TABLE users(
 -- STUDENT Table
 CREATE TABLE student(
     id_student INT PRIMARY KEY,
-    FOREIGN KEY (id_student) REFERENCES user(id_user) ON DELETE CASCADE,
+    FOREIGN KEY (id_student) REFERENCES users(id_user) ON DELETE CASCADE
 );
 
 -- TEACHER Table
@@ -41,7 +41,7 @@ CREATE TABLE course(
     id_category INT,
     type ENUM('video','document') NOT NULL,
     create_by INT NOT NULL,
-    FOREIGN KEY (create_by) REFERENCES teacher(id_teacher) ON DELETE CASCADE,,
+    FOREIGN KEY (create_by) REFERENCES teacher(id_teacher) ON DELETE CASCADE,
     FOREIGN KEY (id_category) REFERENCES category(id_category) ON DELETE CASCADE,
     date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
