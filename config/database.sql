@@ -29,13 +29,13 @@ CREATE TABLE teacher(
 
 --CATEGOORY Table 
 CREATE TABLE category(
-    id_category INT AUTO_INCRIMENT PRIMARY KEY,
+    id_category INT AUTO_INCREMENT PRIMARY KEY,
     category_name VARCHAR(50) NOT NULL
 );
 
 -- COURSE Table
 CREATE TABLE course(
-    id_course INT AUTO_INCRIMENT PRIMARY KEY,
+    id_course INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     description TEXT NOT NULL,
     id_category INT,
@@ -48,7 +48,7 @@ CREATE TABLE course(
 
 --ENROLLMENT Table
 CREATE TABLE enrollment(
-    id_enrollment INT AUTO_INCRIMENT PRIMARY KEY,
+    id_enrollment INT AUTO_INCREMENT PRIMARY KEY,
     id_course INT NOT NULL,
     id_student INT NOT NULL,
     enrollment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -58,7 +58,7 @@ CREATE TABLE enrollment(
 
 --TAG Table
 CREATE TABLE tag(
-    id_tag INT AUTO_INCRIMENT PRIMARY KEY,
+    id_tag INT AUTO_INCREMENT PRIMARY KEY,
     tag_name VARCHAR(50) NOT NULL
 );
 
@@ -73,7 +73,7 @@ CREATE TABLE tag_course(
 
 --CONTENT_VIDEO Table
 CREATE TABLE content_video(
-    id_content INT AUTO_INCRIMENT PRIMARY KEY,
+    id_content INT AUTO_INCREMENT PRIMARY KEY,
     id_content INT NOT NULL,
     video_url VARCHAR(255) NOT NULL,
     FOREIGN KEY (id_course) REFERENCES course(id_course) ON DELETE CASCADE
@@ -81,7 +81,7 @@ CREATE TABLE content_video(
 
 --CONTENT_DOCUMENT Table
 CREATE TABLE content_document(
-    id_content INT AUTO_INCRIMENT PRIMARY KEY,
+    id_content INT AUTO_INCREMENT PRIMARY KEY,
     id_content INT NOT NULL,
     document_text TEXT NOT NULL,
     FOREIGN KEY (id_course) REFERENCES course(id_course) ON DELETE CASCADE

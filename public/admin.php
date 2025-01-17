@@ -47,13 +47,12 @@ if (isset($_POST["delete"])) {
         echo $result;
     }
 }
-if(isset($_POST['valideBtn'])){
-    $id_teacher=$_POST['valideBtn'];
-    $isValide=$teacher->valide_teacher($id_teacher);
-    if(!$isValide){
+if (isset($_POST['valideBtn'])) {
+    $id_teacher = $_POST['valideBtn'];
+    $isValide = $teacher->valide_teacher($id_teacher);
+    if (!$isValide) {
         header("location: admin.php?failure");
     }
-
 }
 ?>
 
@@ -87,22 +86,9 @@ if(isset($_POST['valideBtn'])){
                     <div class="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6 space-y-6">
                         <div class="flex justify-between items-center">
                             <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
-                                Gestion des Utilisateurs
+                                STUDENT MANAGEMENT
                             </h1>
-                            <div class="flex gap-4">
-                                <button class="flex items-center gap-2 px-5 py-2 bg-gray-200 text-gray-600 text-sm font-medium rounded-lg shadow hover:bg-gray-300 transition transform hover:scale-105">
-                                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v16a1 1 0 01-1 1H4a1 1 0 01-1-1V4z" />
-                                    </svg>
-                                    Filtrer par Statut
-                                </button>
-                                <button class="flex items-center gap-2 px-5 py-2 bg-gray-200 text-gray-600 text-sm font-medium rounded-lg shadow hover:bg-gray-300 transition transform hover:scale-105">
-                                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6" />
-                                    </svg>
-                                    Filtrer par Rôle
-                                </button>
-                            </div>
+
                         </div>
 
                         <!-- Table -->
@@ -216,22 +202,9 @@ if(isset($_POST['valideBtn'])){
                     <div class="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6 space-y-6">
                         <div class="flex justify-between items-center">
                             <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
-                                Gestion des Utilisateurs
+                                TEACHER MANAGEMENT
                             </h1>
-                            <div class="flex gap-4">
-                                <button class="flex items-center gap-2 px-5 py-2 bg-gray-200 text-gray-600 text-sm font-medium rounded-lg shadow hover:bg-gray-300 transition transform hover:scale-105">
-                                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v16a1 1 0 01-1 1H4a1 1 0 01-1-1V4z" />
-                                    </svg>
-                                    Filtrer par Statut
-                                </button>
-                                <button class="flex items-center gap-2 px-5 py-2 bg-gray-200 text-gray-600 text-sm font-medium rounded-lg shadow hover:bg-gray-300 transition transform hover:scale-105">
-                                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6" />
-                                    </svg>
-                                    Filtrer par Rôle
-                                </button>
-                            </div>
+
                         </div>
 
                         <!-- Table -->
@@ -291,27 +264,32 @@ if(isset($_POST['valideBtn'])){
                         </form>
 
                       </td> -->
-                                            <td class="p-4">
-                                                <p><?php
+                                            <td class="p-4 flex items-center gap-3">
+                                                <p>
+                                                <div class="flex items-center gap-4">
+                                                    <?php
                                                     if ($teacher["isvalide"]) {
+
                                                         echo "valide";
                                                     ?>
                                                         <button type="submit" class="p-2 rounded-full bg-green-600 text-white hover:bg-green-700 active:bg-green-600 focus:outline-none">
                                                             <i class="fas fa-check-circle text-sm"></i>
                                                         </button>
-                                                    <?php
+                                                </div>
+                                            <?php
+
                                                     } else {
                                                         echo "invalide";
-                                                    ?>
-                                                        <form action="" method="post">
-                                                        <button name="valideBtn" value="<?= $teacher["id_user"]; ?>" type="submit" class="p-2 rounded-full bg-red-600 text-white hover:bg-red-700 active:bg-green-600 focus:outline-none">
-                                                            <i class="fas fa-check-circle text-sm"></i>
-                                                        </button>
-                                                        </form>
-                                                    <?php
+                                            ?>
+                                                <form action="" method="post">
+                                                    <button name="valideBtn" value="<?= $teacher["id_user"]; ?>" type="submit" class="p-2 rounded-full bg-red-600 text-white hover:bg-red-700 active:bg-green-600 focus:outline-none">
+                                                        <i class="fas fa-check-circle text-sm"></i>
+                                                    </button>
+                                                </form>
+                                            <?php
                                                     }
-                                                    ?>
-                                                </p>
+                                            ?>
+                                            </p>
 
                                             </td>
                                             <td class="p-4">
@@ -341,7 +319,7 @@ if(isset($_POST['valideBtn'])){
                                                             <path
                                                                 d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
                                                                 data-original="#000000" />
-                                                            <path 
+                                                            <path
                                                                 d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
                                                                 data-original="#000000" />
                                                         </svg>
@@ -361,12 +339,72 @@ if(isset($_POST['valideBtn'])){
                         </div>
                     </div>
                 </section>
+                <section id="tag" class="flex flex-col items-center bg-gray-50 min-h-screen p-6 hidden">
+                    <!-- Header -->
+                    <div class="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6 space-y-6">
+                        <div class="flex justify-between items-center">
+                            <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
+                                TAGS MANAGEMENT
+                            </h1>
+                            <form action="" method="post">
+                                <button id="ajoutBtn" type="button" name="add_tag"
+                                    class="px-5 py-2.5 rounded-full text-white text-sm tracking-wider font-medium border border-current outline-none bg-red-700 hover:bg-red-800 active:bg-red-700">
+                                    ADD TAG</button>
+                            </form>
+                        </div>
+
+                        <p>taaags</p>
+                    </div>
+                </section>
             </section>
 
         </div>
     </div>
 
     <!----------------------------------------------- END TEACHER MANAGEMENT ----------------------------------------------------------->
+    <!----------------------------------------------- ADD TAG ----------------------------------------------------------->
+    <div id="add_tag" class="fixed inset-0 p-4 hidden flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+        <div class="w-full max-w-lg bg-white shadow-lg rounded-lg p-8 relative">
+            <div class="flex items-center">
+                <h3 class="text-blue-600 text-3xl font-bold flex-1 text-center w-full">ADD TAGS</h3>
+
+                <div id="close1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
+                        viewBox="0 0 320.591 320.591">
+                        <path
+                            d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                            data-original="#000000"></path>
+                        <path
+                            d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                            data-original="#000000"></path>
+                    </svg>
+                </div>
+
+            </div>
+
+            <form class="space-y-4 mt-8" action="admin.php" method="post" autocomplete="off">
+
+                <div>
+                    <!-- <label class="text-gray-800 text-sm mb-2 block">Titre</label> -->
+                    <input type="text" name="tag" placeholder="write tag here..."
+                        class="px-4 py-3 bg-gray-100 w-full text-gray-800 text-sm border-none focus:outline-blue-600 focus:bg-transparent rounded-lg" />
+                </div>
+                <div class="flex justify-end gap-4 !mt-8">
+                    <button type="button" id="ajouteCancelQuiz"
+                        class="px-6 py-3 rounded-lg text-gray-800 text-sm border-none outline-none tracking-wide bg-gray-200 hover:bg-gray-300">Cancel</button>
+                    <button type="submit" id="ajoutQuizBtn" name="submit"
+                        class="px-6 py-3 rounded-lg text-white text-sm border-none outline-none tracking-wide bg-blue-600 hover:bg-blue-700">Ajouter</button>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+
+
+    <!----------------------------------------------- END ADD TAG ----------------------------------------------------------->
+
+
     </section>
 
     </div>
@@ -379,7 +417,9 @@ if(isset($_POST['valideBtn'])){
         let user = document.getElementById("user");
         // let teacher = document.getElementById("teacher");
         let userBtn = document.getElementById("userBtn");
+        let tagBtn = document.getElementById("tagBtn");
         let teacher = document.getElementById("teacher");
+        let tag = document.getElementById("tag");
         let GameBtn = document.getElementById("GameBtn");
 
 
@@ -397,6 +437,7 @@ if(isset($_POST['valideBtn'])){
             user.style.display = "flex";
             // dashboard.style.display = "none";
             teacher.style.display = "none";
+            tag.style.display = "none";
 
         });
 
@@ -405,6 +446,15 @@ if(isset($_POST['valideBtn'])){
             teacher.style.display = "flex";
             // dashboard.style.display = "none";
             user.style.display = "none";
+            tag.style.display = "none";
+
+        });
+
+        tagBtn.addEventListener("click", () => {
+            tag.style.display = "flex";
+            // dashboard.style.display = "none";
+            user.style.display = "none";
+            teacher.style.display = "none";
 
         });
 
@@ -418,22 +468,22 @@ if(isset($_POST['valideBtn'])){
 
         let artcile = document.querySelector(".artcile");
 
-        let ajoutModalArticle = document.getElementById("ajoutModalArticle");
+        let add_tag = document.getElementById("add_tag");
         let ajoutBtn = document.getElementById("ajoutBtn");
         let clsoe1 = document.getElementById("close1");
 
         ajoutBtn.addEventListener("click", () => {
 
-            ajoutModalArticle.classList.remove("hidden");
-            ajoutModalArticle.classList.add("flex");
+            add_tag.classList.remove("hidden");
+            add_tag.classList.add("flex");
 
         });
 
 
         close1.addEventListener("click", () => {
 
-            ajoutModalArticle.classList.remove("flex");
-            ajoutModalArticle.classList.add("hidden");
+            add_tag.classList.remove("flex");
+            add_tag.classList.add("hidden");
 
         });
     </script>

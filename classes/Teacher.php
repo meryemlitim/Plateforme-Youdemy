@@ -64,8 +64,8 @@ class teachers extends users
 
 
     function dispaly_teacher(){
-        $query = "SELECT * FROM users join teacher on users.id_user=teacher.id_teacher where role ='teacher' ";
-        $stmt = $this->connexion->prepare($query);
+        $query = "SELECT * FROM users JOIN teacher ON users.id_user = teacher.id_teacher WHERE users.role = 'teacher' ORDER BY teacher.isvalide = false DESC";        
+         $stmt = $this->connexion->prepare($query);
         $stmt->execute();
 
         return $stmt->fetchAll();
