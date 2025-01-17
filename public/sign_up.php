@@ -21,6 +21,8 @@ if(isset($_POST["submit"])){
 
   if($result == 1){
       echo "<script>alert('Register Succeful');</script>";
+    //   header("Location:login.php");
+
   }else{
       echo '<script>alert("'.$result.'");</script>';
   }

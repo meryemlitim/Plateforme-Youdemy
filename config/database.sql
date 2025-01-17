@@ -23,7 +23,8 @@ CREATE TABLE student(
 -- TEACHER Table
 CREATE TABLE teacher(
     id_teacher INT PRIMARY KEY,
-    FOREIGN KEY (id_teacher) REFERENCES user(id_user) ON DELETE CASCADE,
+    FOREIGN KEY (id_teacher) REFERENCES users(id_user) ON DELETE CASCADE,
+    isvalide BOOLEAN DEFAULT false
 );
 
 --CATEGOORY Table 

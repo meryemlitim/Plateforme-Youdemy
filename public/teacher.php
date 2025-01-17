@@ -1,10 +1,16 @@
 <?php
 require_once "../config/database.php";
 require_once "../classes/User.php";
+require_once "../classes/Teacher.php";
+
 
 $user = new users();
+$teacher = new teachers(); 
+
 $user_id = $_SESSION["user_id"] ?? "";
 $role = $_SESSION["role"] ?? "";
+
+$isValide=$teacher->isvalide($user_id );
 
 ?>
 <!DOCTYPE html>
@@ -23,7 +29,12 @@ $role = $_SESSION["role"] ?? "";
   <?php if($role=="teacher"){ ?> 
     <?php include "../template/header_teacher.php" ?>
 <h1>hello teacher</h1>
-<?php } else {?>
+<?php if(!$isValide){?>
+    <h1>you need admin validation</h1>
+    <?php } else{?>
+        <h1>admin has been validate your account</h1>
+        <?php } ?>
+<?php } else {?> 
     <?php include "404_page.php" ?>
 
 <?php } ?>

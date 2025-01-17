@@ -1,8 +1,10 @@
 <?php 
 
   require_once "../classes/User.php";
+  require_once "../classes/Teacher.php";
 
-  $user = new users();
+  $user = new users(); 
+  $teacher = new teachers(); 
 
   if(!empty($_SESSION["user_id"])){
     header("Location:admin.php");
@@ -19,6 +21,7 @@
 
       $_SESSION["user_id"] = $result;
       $res = $user->getUser($_SESSION["user_id"]);
+      
 
       if($res["role"] == "admin"){
         $_SESSION["role"] = "admin";
@@ -28,10 +31,11 @@
         $_SESSION["role"] = "student";
         header("Location:index.php");
       }else{
+        // -------
+      $teacher->insert_teacher($res["id_user"] );
+      // -----------
         $_SESSION["role"] = "teacher";
         header("Location:teacher.php");
-
-
       }
 
     }else{
