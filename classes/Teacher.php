@@ -48,10 +48,23 @@ class teachers extends users
         }
     }
 
+    function valide_teacher($id_teacher){
+        $sql="UPDATE teacher SET isvalide = true where id_teacher =:id_teacher";
+        $stmt=$this->connexion->prepare($sql);
+        $stmt->bindParam(':id_teacher',$id_teacher);
+        // $stmt->bindParam(':isvalide',$isvalide);
+        try {
+           
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            die("Erreur Lors Modification : " . $e);
+        }    }
+
 
 
     function dispaly_teacher(){
-        $query = "SELECT * FROM users where role ='teacher' ";
+        $query = "SELECT * FROM users join teacher on users.id_user=teacher.id_teacher where role ='teacher' ";
         $stmt = $this->connexion->prepare($query);
         $stmt->execute();
 
