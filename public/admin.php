@@ -3,17 +3,20 @@ require_once "../config/database.php";
 require_once "../classes/User.php";
 require_once "../classes/Teacher.php";
 require_once "../classes/Student.php";
+require_once "../classes/Tag.php";
 
 
 $user = new users();
 $teacher = new teachers();
 $student = new students();
+$tag = new tags();
 
 $user_id = $_SESSION["user_id"] ?? "";
 $role = $_SESSION["role"] ?? "";
 
 $all_student = $student->dispaly_student();
 $all_teacher = $teacher->dispaly_teacher();
+$all_tag = $tag->dispaly_tag();
 
 
 if (isset($_POST["status"])) {
@@ -54,6 +57,44 @@ if (isset($_POST['valideBtn'])) {
         header("location: admin.php?failure");
     }
 }
+
+
+if (isset($_POST['add_tag_btn'])) {
+    $tag_name = $_POST['tag'];
+    $tag->addTag($tag_name);
+    header("location:admin.php");
+
+}
+
+if(isset($_POST['deleteTag'])){
+    $id_tag=$_POST['id_tag'];
+    $tag->deleteTag($id_tag);
+    header("location:admin.php");
+
+}
+if(isset($_POST['Tag_edit'])){
+    // header("location:admin.php?done");
+$id_tag=$_POST['id_tag_edit'];
+ $update_tag=$tag->getId_tag($id_tag);
+     include "edit_tag.php";
+
+    
+    // header("location:admin.php");
+
+}
+
+if(isset($_POST['update_tag'])){
+$id_tag=$_POST['update_tag'];
+$newTag_name=$_POST['newTag_name'];
+
+
+$rst=$tag->editTag($id_tag,$newTag_name);
+if(!$rst){
+    header("location:admin.php?failure");
+}
+
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -253,17 +294,7 @@ if (isset($_POST['valideBtn'])) {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <!-- <td class="p-4 text-sm text-black">
 
-                        <form action="admin.php" method="POST">
-                          <input type="hidden" name="user_id" value="<?= $User["user_id"]; ?>">
-                          <select name="role" onchange="this.form.submit()" class="mt-1 block w-3/6 p-2 border rounded-md bg-white text-gray-700 focus:ring focus:ring-orange-300">
-                            <option value="admin" <?= $User["role"] == "admin" ? "selected" : ""  ?>>Admin</option>
-                            <option value="user" <?= $User["role"] == "user" ? "selected" : ""  ?>>User</option>
-                          </select>
-                        </form>
-
-                      </td> -->
                                             <td class="p-4 flex items-center gap-3">
                                                 <p>
                                                 <div class="flex items-center gap-4">
@@ -339,6 +370,8 @@ if (isset($_POST['valideBtn'])) {
                         </div>
                     </div>
                 </section>
+                <!----------------------------------------------- END TEACHER MANAGEMENT ----------------------------------------------------------->
+
                 <section id="tag" class="flex flex-col items-center bg-gray-50 min-h-screen p-6 hidden">
                     <!-- Header -->
                     <div class="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6 space-y-6">
@@ -353,7 +386,87 @@ if (isset($_POST['valideBtn'])) {
                             </form>
                         </div>
 
-                        <p>taaags</p>
+                        <div class="font-[sans-serif] overflow-x-auto">
+                            <table class="min-w-full bg-white">
+                                <thead class="whitespace-nowrap">
+                                    <tr>
+                                        <th class="p-4 text-left text-sm font-semibold text-black">
+                                            Tag id
+                                        </th>
+                                        <th class="p-4 text-left text-sm font-semibold text-black">
+                                            Tag Name
+                                        </th>
+
+
+
+
+                                    </tr>
+                                </thead>
+
+                                <tbody class="whitespace-nowrap">
+
+
+                                    <?php foreach ($all_tag as $tag) { ?>
+
+                                        <tr class="odd:bg-gray-100">
+                                            <td class="p-4 text-md font-bold">
+                                                <?= $tag["id_tag"]; ?>
+                                            </td>
+                                            <td class="p-4 text-sm">
+                                                <div class="flex items-center cursor-pointer w-max">
+                                                    <div class="ml-4">
+                                                        <p class="text-sm text-black"> <?= $tag["tag_name"]; ?> </p>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+
+
+
+                                            <td class="p-4">
+
+                                                <form action="" method="POST">
+                                                    <input type="hidden" name="id_tag_edit" value="<?= $tag["id_tag"]; ?>">
+                                                    <button  type="submit" name="Tag_edit"
+                                                        class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-green-600 hover:bg-green-700 active:bg-red-600">
+                                                        <span class="border-r border-white pr-3">Edit</span>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 24 24">
+                                                            <path d="M16.707 4.293l-3.997 3.998 4.242 4.243 3.997-3.998a2 2 0 0 0 0-2.828l-2.828-2.828a2 2 0 0 0-2.828 0zM12.414 8.707L11 7.293 4 14.293V17h2.707l7.414-7.414z" />
+                                                        </svg>
+
+                                                    </button>
+                                                </form>
+
+                                            </td>
+                                            <td class="p-4">
+
+                                                <form action="admin.php" method="POST">
+                                                    <input type="hidden" name="id_tag" value="<?= $tag["id_tag"]; ?>">
+                                                    <button type="submit" name="deleteTag"
+                                                        class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-red-600 hover:bg-red-700 active:bg-red-600">
+                                                        <span class="border-r border-white pr-3">Delete</span>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 320.591 320.591">
+                                                            <path
+                                                                d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                                                                data-original="#000000" />
+                                                            <path
+                                                                d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                                                                data-original="#000000" />
+                                                        </svg>
+                                                    </button>
+                                                </form>
+
+                                            </td>
+                                        </tr>
+
+
+                                    <?php } ?>
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </section>
             </section>
@@ -361,7 +474,6 @@ if (isset($_POST['valideBtn'])) {
         </div>
     </div>
 
-    <!----------------------------------------------- END TEACHER MANAGEMENT ----------------------------------------------------------->
     <!----------------------------------------------- ADD TAG ----------------------------------------------------------->
     <div id="add_tag" class="fixed inset-0 p-4 hidden flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
         <div class="w-full max-w-lg bg-white shadow-lg rounded-lg p-8 relative">
@@ -392,7 +504,7 @@ if (isset($_POST['valideBtn'])) {
                 <div class="flex justify-end gap-4 !mt-8">
                     <button type="button" id="ajouteCancelQuiz"
                         class="px-6 py-3 rounded-lg text-gray-800 text-sm border-none outline-none tracking-wide bg-gray-200 hover:bg-gray-300">Cancel</button>
-                    <button type="submit" id="ajoutQuizBtn" name="submit"
+                    <button type="submit" id="ajoutQuizBtn" name="add_tag_btn"
                         class="px-6 py-3 rounded-lg text-white text-sm border-none outline-none tracking-wide bg-blue-600 hover:bg-blue-700">Ajouter</button>
                 </div>
 
@@ -403,6 +515,8 @@ if (isset($_POST['valideBtn'])) {
 
 
     <!----------------------------------------------- END ADD TAG ----------------------------------------------------------->
+
+    
 
 
     </section>
@@ -421,6 +535,8 @@ if (isset($_POST['valideBtn'])) {
         let teacher = document.getElementById("teacher");
         let tag = document.getElementById("tag");
         let GameBtn = document.getElementById("GameBtn");
+        // let edit_tag = document.getElementById("edit_tag");
+
 
 
         // dashboardBtn.addEventListener("click", () => {
@@ -457,6 +573,7 @@ if (isset($_POST['valideBtn'])) {
             teacher.style.display = "none";
 
         });
+        
 
         // userBtn.addEventListener("click", () => {
 
@@ -470,6 +587,12 @@ if (isset($_POST['valideBtn'])) {
 
         let add_tag = document.getElementById("add_tag");
         let ajoutBtn = document.getElementById("ajoutBtn");
+
+
+        // let edit_tag = document.getElementById("edit_tag");
+        // let editBtn = document.getElementById("editBtn");
+
+
         let clsoe1 = document.getElementById("close1");
 
         ajoutBtn.addEventListener("click", () => {
@@ -478,6 +601,12 @@ if (isset($_POST['valideBtn'])) {
             add_tag.classList.add("flex");
 
         });
+        // editBtn.addEventListener("click", () => {
+
+        //     edit_tag.classList.remove("hidden");
+        //     edit_tag.classList.add("flex");
+
+        // });
 
 
         close1.addEventListener("click", () => {
