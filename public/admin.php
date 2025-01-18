@@ -4,12 +4,14 @@ require_once "../classes/User.php";
 require_once "../classes/Teacher.php";
 require_once "../classes/Student.php";
 require_once "../classes/Tag.php";
+require_once "../classes/Category.php";
 
 
 $user = new users();
 $teacher = new teachers();
 $student = new students();
 $tag = new tags();
+$category = new categries();
 
 $user_id = $_SESSION["user_id"] ?? "";
 $role = $_SESSION["role"] ?? "";
@@ -57,43 +59,79 @@ if (isset($_POST['valideBtn'])) {
         header("location: admin.php?failure");
     }
 }
-
+// ----------------TAG---------------
 
 if (isset($_POST['add_tag_btn'])) {
     $tag_name = $_POST['tag'];
     $tag->addTag($tag_name);
     header("location:admin.php");
-
 }
 
-if(isset($_POST['deleteTag'])){
-    $id_tag=$_POST['id_tag'];
+if (isset($_POST['deleteTag'])) {
+    $id_tag = $_POST['id_tag'];
     $tag->deleteTag($id_tag);
     header("location:admin.php");
-
 }
-if(isset($_POST['Tag_edit'])){
+if (isset($_POST['Tag_edit'])) {
     // header("location:admin.php?done");
-$id_tag=$_POST['id_tag_edit'];
- $update_tag=$tag->getId_tag($id_tag);
-     include "edit_tag.php";
+    $id_tag = $_POST['id_tag_edit'];
+    $update_tag = $tag->getId_tag($id_tag);
+    include "edit_tag.php";
 
-    
+
     // header("location:admin.php");
 
 }
 
-if(isset($_POST['update_tag'])){
-$id_tag=$_POST['update_tag'];
-$newTag_name=$_POST['newTag_name'];
+if (isset($_POST['update_tag'])) {
+    $id_tag = $_POST['update_tag'];
+    $newTag_name = $_POST['newTag_name'];
 
 
-$rst=$tag->editTag($id_tag,$newTag_name);
-if(!$rst){
-    header("location:admin.php?failure");
+    $rst = $tag->editTag($id_tag, $newTag_name);
+    if (!$rst) {
+        header("location:admin.php?failure");
+    }
 }
 
+// ---------------CATEGORY-------------------
+if (isset($_POST['add_category_btn'])) {
+    $category_name = $_POST['category'];
+    $category->addCategory($category_name);
+    header("location:admin.php");
 }
+
+$all_category = $category->dispaly_category();
+
+if (isset($_POST['deleteCategory'])) {
+    $id_category = $_POST['id_category'];
+    $category->deleteCategory($id_category);
+    header("location:admin.php");
+}
+
+
+if (isset($_POST['category_edit'])) {
+    // header("location:admin.php?done");
+    $id_category = $_POST['id_category_edit'];
+    $update_category = $category->getId_category($id_category);
+    include "edit_category.php";
+
+
+    // header("location:admin.php");
+
+}
+
+if (isset($_POST['update_category'])) {
+    $id_category= $_POST['update_category'];
+    $newCategory_name = $_POST['newCategory_name'];
+
+
+    $rst = $category->editCategory($id_category, $newCategory_name);
+    if (!$rst) {
+        header("location:admin.php?failure");
+    }
+}
+
 
 ?>
 
@@ -371,6 +409,7 @@ if(!$rst){
                     </div>
                 </section>
                 <!----------------------------------------------- END TEACHER MANAGEMENT ----------------------------------------------------------->
+                <!----------------------------------------------- TAGS MANAGEMENT ----------------------------------------------------------->
 
                 <section id="tag" class="flex flex-col items-center bg-gray-50 min-h-screen p-6 hidden">
                     <!-- Header -->
@@ -427,7 +466,7 @@ if(!$rst){
 
                                                 <form action="" method="POST">
                                                     <input type="hidden" name="id_tag_edit" value="<?= $tag["id_tag"]; ?>">
-                                                    <button  type="submit" name="Tag_edit"
+                                                    <button type="submit" name="Tag_edit"
                                                         class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-green-600 hover:bg-green-700 active:bg-red-600">
                                                         <span class="border-r border-white pr-3">Edit</span>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 24 24">
@@ -469,6 +508,107 @@ if(!$rst){
                         </div>
                     </div>
                 </section>
+
+                
+    <!----------------------------------------------- CATEGORIES MANAGEMENT ----------------------------------------------------------->
+
+    <section id="category" class="flex flex-col items-center bg-gray-50 min-h-screen p-6 hidden">
+        <!-- Header -->
+        <div class="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6 space-y-6">
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
+                    CATEGORIES MANAGEMENT
+                </h1>
+                <form action="" method="post">
+                    <button id="ajoutBtn_category" type="button" name="add_category"
+                        class="px-5 py-2.5 rounded-full text-white text-sm tracking-wider font-medium border border-current outline-none bg-red-700 hover:bg-red-800 active:bg-red-700">
+                        ADD CATEGORY</button>
+                </form>
+            </div>
+
+            <div class="font-[sans-serif] overflow-x-auto">
+                <table class="min-w-full bg-white">
+                    <thead class="whitespace-nowrap">
+                        <tr>
+                            <th class="p-4 text-left text-sm font-semibold text-black">
+                                Category id
+                            </th>
+                            <th class="p-4 text-left text-sm font-semibold text-black">
+                                Category Name
+                            </th>
+
+
+
+
+                        </tr>
+                    </thead>
+
+                    <tbody class="whitespace-nowrap">
+
+
+                        <?php foreach ($all_category as $category) { ?>
+
+                            <tr class="odd:bg-gray-100">
+                                <td class="p-4 text-md font-bold">
+                                    <?= $category["id_category"]; ?>
+                                </td>
+                                <td class="p-4 text-sm">
+                                    <div class="flex items-center cursor-pointer w-max">
+                                        <div class="ml-4">
+                                            <p class="text-sm text-black"> <?= $category["category_name"]; ?> </p>
+                                        </div>
+                                    </div>
+                                </td>
+
+
+
+
+                                <td class="p-4">
+
+                                    <form action="" method="POST">
+                                        <input type="hidden" name="id_category_edit" value="<?= $category["id_category"]; ?>">
+                                        <button type="submit" name="category_edit"
+                                            class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-green-600 hover:bg-green-700 active:bg-red-600">
+                                            <span class="border-r border-white pr-3">Edit</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 24 24">
+                                                <path d="M16.707 4.293l-3.997 3.998 4.242 4.243 3.997-3.998a2 2 0 0 0 0-2.828l-2.828-2.828a2 2 0 0 0-2.828 0zM12.414 8.707L11 7.293 4 14.293V17h2.707l7.414-7.414z" />
+                                            </svg>
+
+                                        </button>
+                                    </form>
+
+                                </td>
+                                <td class="p-4">
+
+                                    <form action="admin.php" method="POST">
+                                        <input type="hidden" name="id_category" value="<?= $category["id_category"]; ?>">
+                                        <button type="submit" name="deleteCategory"
+                                            class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-red-600 hover:bg-red-700 active:bg-red-600">
+                                            <span class="border-r border-white pr-3">Delete</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 320.591 320.591">
+                                                <path
+                                                    d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                                                    data-original="#000000" />
+                                                <path
+                                                    d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                                                    data-original="#000000" />
+                                            </svg>
+                                        </button>
+                                    </form>
+
+                                </td>
+                            </tr>
+
+
+                        <?php } ?>
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
             </section>
 
         </div>
@@ -516,7 +656,52 @@ if(!$rst){
 
     <!----------------------------------------------- END ADD TAG ----------------------------------------------------------->
 
+
     
+
+    <!----------------------------------------------- ADD CATEGORY ----------------------------------------------------------->
+    <div id="add_category" class="fixed inset-0 p-4 hidden flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+        <div class="w-full max-w-lg bg-white shadow-lg rounded-lg p-8 relative">
+            <div class="flex items-center">
+                <h3 class="text-blue-600 text-3xl font-bold flex-1 text-center w-full">ADD CATEGORY</h3>
+
+                <div id="close2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
+                        viewBox="0 0 320.591 320.591">
+                        <path
+                            d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                            data-original="#000000"></path>
+                        <path
+                            d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                            data-original="#000000"></path>
+                    </svg>
+                </div>
+
+            </div>
+
+            <form class="space-y-4 mt-8" action="admin.php" method="post" autocomplete="off">
+
+                <div>
+                     <!-- <label class="text-gray-800 text-sm mb-2 block">Titre</label> -->
+    <input type="text" name="category" placeholder="write category here..."
+        class="px-4 py-3 bg-gray-100 w-full text-gray-800 text-sm border-none focus:outline-blue-600 focus:bg-transparent rounded-lg" />
+    </div>
+    <div class="flex justify-end gap-4 !mt-8">
+        <button type="button" id="ajouteCancelQuiz"
+            class="px-6 py-3 rounded-lg text-gray-800 text-sm border-none outline-none tracking-wide bg-gray-200 hover:bg-gray-300">Cancel</button>
+        <button type="submit" id="ajoutQuizBtn" name="add_category_btn"
+            class="px-6 py-3 rounded-lg text-white text-sm border-none outline-none tracking-wide bg-blue-600 hover:bg-blue-700">Ajouter</button>
+    </div>
+
+
+    </form>
+    </div>
+    </div>
+
+
+    <!-- --------------------------------------------- END ADD CATEGORY --------------------------------------------------------- --> -->
+
+
 
 
     </section>
@@ -532,8 +717,10 @@ if(!$rst){
         // let teacher = document.getElementById("teacher");
         let userBtn = document.getElementById("userBtn");
         let tagBtn = document.getElementById("tagBtn");
+        let categoryBtn = document.getElementById("categoryBtn");
         let teacher = document.getElementById("teacher");
         let tag = document.getElementById("tag");
+        let category = document.getElementById("category");
         let GameBtn = document.getElementById("GameBtn");
         // let edit_tag = document.getElementById("edit_tag");
 
@@ -554,6 +741,8 @@ if(!$rst){
             // dashboard.style.display = "none";
             teacher.style.display = "none";
             tag.style.display = "none";
+            category.style.display = "none";
+
 
         });
 
@@ -563,6 +752,8 @@ if(!$rst){
             // dashboard.style.display = "none";
             user.style.display = "none";
             tag.style.display = "none";
+            category.style.display = "none";
+
 
         });
 
@@ -571,9 +762,18 @@ if(!$rst){
             // dashboard.style.display = "none";
             user.style.display = "none";
             teacher.style.display = "none";
+            category.style.display = "none";
 
         });
-        
+        categoryBtn.addEventListener("click", () => {
+            category.style.display = "flex";
+            // dashboard.style.display = "none";
+            user.style.display = "none";
+            teacher.style.display = "none";
+            tag.style.display = "none";
+
+        });
+
 
         // userBtn.addEventListener("click", () => {
 
@@ -594,6 +794,7 @@ if(!$rst){
 
 
         let clsoe1 = document.getElementById("close1");
+        let clsoe2 = document.getElementById("close2");
 
         ajoutBtn.addEventListener("click", () => {
 
@@ -601,6 +802,19 @@ if(!$rst){
             add_tag.classList.add("flex");
 
         });
+
+
+        let add_category = document.getElementById("add_category");
+        let ajoutBtn_category = document.getElementById("ajoutBtn_category");
+
+        ajoutBtn_category.addEventListener("click", () => {
+
+            add_category.classList.remove("hidden");
+            add_category.classList.add("flex");
+
+        });
+
+
         // editBtn.addEventListener("click", () => {
 
         //     edit_tag.classList.remove("hidden");
@@ -613,6 +827,13 @@ if(!$rst){
 
             add_tag.classList.remove("flex");
             add_tag.classList.add("hidden");
+
+        });
+
+        close2.addEventListener("click", () => {
+
+            add_category.classList.remove("flex");
+            add_category.classList.add("hidden");
 
         });
     </script>
