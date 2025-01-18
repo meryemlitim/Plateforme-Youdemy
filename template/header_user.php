@@ -5,8 +5,10 @@
     $user = new users();
     $user_id = $_SESSION["user_id"] ?? "";
     $username =  $user->getUser($user_id);
+    $role = $_SESSION["role"] ?? "";
 
-    ?>
+
+?>
 
 
 
@@ -30,7 +32,7 @@
          <div id="navbarCollapse" class="hidden lg:flex space-x-6">
              <a href="index.html" class="text-gray-500 font-extrabold hover:text-blue-600">Home</a>
              <a href="about.html" class="text-gray-500 font-extrabold hover:text-blue-600">About</a>
-             <?php if (!empty($_SESSION["user_id"])) { ?>
+             <?php if (!empty($_SESSION["user_id"]) & $role== "student" ) { ?>
                  <a href="course.html" class="text-gray-500 font-extrabold hover:text-blue-600">My Courses</a>
              <?php } ?>
 

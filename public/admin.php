@@ -145,8 +145,8 @@ if (isset($_POST['update_category'])) {
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
-
 <body>
+<?php if($role=="admin"){ ?> 
     <div class="relative bg-[#f7f6f9] h-full min-h-screen font-[sans-serif]">
         <div class="flex items-start">
 
@@ -710,7 +710,15 @@ if (isset($_POST['update_category'])) {
     </div>
 
 
-    <script>
+    
+    
+<?php } else {?> 
+    <?php include "404_page.php" ?>
+
+<?php } ?>
+
+</body>
+<script>
         let dashboardBtn = document.getElementById("dashboardBtn");
         let dashboard = document.getElementById("dashboard");
         let user = document.getElementById("user");
@@ -837,6 +845,6 @@ if (isset($_POST['update_category'])) {
 
         });
     </script>
-</body>
+
 
 </html>
