@@ -39,8 +39,10 @@ CREATE TABLE course(
     title VARCHAR(100) NOT NULL,
     description TEXT NOT NULL,
     id_category INT,
-    type ENUM('video','document') NOT NULL,
     create_by INT NOT NULL,
+    type ENUM('video','document') NOT NULL,
+    video_url VARCHAR(255) NOT NULL DEFAULT video,
+    document_text TEXT NOT NULL DEFAULT document,
     FOREIGN KEY (create_by) REFERENCES teacher(id_teacher) ON DELETE CASCADE,
     FOREIGN KEY (id_category) REFERENCES category(id_category) ON DELETE CASCADE,
     date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -71,18 +73,18 @@ CREATE TABLE tag_course(
     FOREIGN key id_tag REFERENCES tag(id_tag) ON DELETE CASCADE
 );
 
---CONTENT_VIDEO Table
-CREATE TABLE content_video(
-    id_content INT AUTO_INCREMENT PRIMARY KEY,
-    id_content INT NOT NULL,
-    video_url VARCHAR(255) NOT NULL,
-    FOREIGN KEY (id_course) REFERENCES course(id_course) ON DELETE CASCADE
-);
+-- --CONTENT_VIDEO Table
+-- CREATE TABLE content_video(
+--     id_content INT AUTO_INCREMENT PRIMARY KEY,
+--     id_content INT NOT NULL,
+--     video_url VARCHAR(255) NOT NULL,
+--     FOREIGN KEY (id_course) REFERENCES course(id_course) ON DELETE CASCADE
+-- );
 
---CONTENT_DOCUMENT Table
-CREATE TABLE content_document(
-    id_content INT AUTO_INCREMENT PRIMARY KEY,
-    id_content INT NOT NULL,
-    document_text TEXT NOT NULL,
-    FOREIGN KEY (id_course) REFERENCES course(id_course) ON DELETE CASCADE
-);
+-- --CONTENT_DOCUMENT Table
+-- CREATE TABLE content_document(
+--     id_content INT AUTO_INCREMENT PRIMARY KEY,
+--     id_content INT NOT NULL,
+--     document_text TEXT NOT NULL,
+--     FOREIGN KEY (id_course) REFERENCES course(id_course) ON DELETE CASCADE
+-- );

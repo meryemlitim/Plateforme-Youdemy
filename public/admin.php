@@ -62,9 +62,17 @@ if (isset($_POST['valideBtn'])) {
 // ----------------TAG---------------
 
 if (isset($_POST['add_tag_btn'])) {
-    $tag_name = $_POST['tag'];
-    $tag->addTag($tag_name);
+    $tag_name = trim($_POST['tag']);
+    $tag_name2=array_map('trim',explode(',',$tag_name));
+    foreach($tag_name2 as $tg){
+        if(!empty($tg)){
+            $tag->addTag($tg);
+           
+
+        }
+    }
     header("location:admin.php");
+  
 }
 
 if (isset($_POST['deleteTag'])) {
