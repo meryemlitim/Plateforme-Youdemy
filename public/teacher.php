@@ -2,25 +2,54 @@
 require_once "../config/database.php";
 require_once "../classes/User.php";
 require_once "../classes/Teacher.php";
+require_once "../classes/Category.php";
 require_once "../classes/Course.php";
 require_once "../classes/Content_video.php";
+require_once "../classes/Countent_document.php";
 
 
 $user = new users();
 $teacher = new teachers();
+$category = new categries();
+
+$all_category = $category->dispaly_category();
+
 
 $user_id = $_SESSION["user_id"] ?? "";
 $role = $_SESSION["role"] ?? "";
 
 $isValide = $teacher->isvalide($user_id);
-$course = new content_video();
+$course1 = new content_video();
+$course = new content_document();
 
-if(isset($_POST['add_courses_btn'])){
-  $title=$_POST['courses'];
+if (isset($_POST['add_courses_video'])) {
+  $type = 'video';
+  $title = $_POST['course_title'];
+  $description = $_POST['course_description'];
+  $video_url = $_POST['course_content_video'];
+  $create_by = $user_id;
+  $category_name = $_POST['course_category'];
 
-  $course->addCourse($title);
-
+  $course1->addCourse($title, $description, $category_name, $create_by, $type, $video_url);
 }
+if (isset($_POST['add_courses_document'])) {
+  $type = 'document';
+  $title = $_POST['course_title'];
+  $description = $_POST['course_description'];
+  $document_text = $_POST['course_content_document'];
+  $create_by = $user_id;
+  $category_name = $_POST['course_category'];
+
+  $course->addCourse($title, $description, $category_name, $create_by, $type, $document_text);
+}
+
+// if (isset($_POST['add_courses_btn_submit'])) {
+//   $title = $_POST['course_title'];
+//   $description = $_POST['course_description'];
+//   $type = $_POST['course_type'];
+
+//   // $course->addCourse($title);
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,12 +80,17 @@ if(isset($_POST['add_courses_btn'])){
                 <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
                   COURSES MANAGEMENT
                 </h1>
-                <form action="" method="post">
-                  <button id="ajoutBtn_course" type="button" name="add_tag"
-                    class="px-5 py-2.5 rounded-full text-white text-sm tracking-wider font-medium border border-current outline-none bg-red-700 hover:bg-red-800 active:bg-red-700">
-                    ADD COURSE</button>
 
+                <form action="" method="post">
+                  <select name="course_type" id="ajoutBtn_course"
+                    class="px-5 py-2.5 rounded-full text-white text-sm tracking-wider font-medium border border-current outline-none bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-600">
+                    <option value="" disabled selected style="background: white; color: black;">ADD COURSE</option>
+                    <option value="video" style="background: white; color: black;">Video</option>
+                    <option value="document" style="background: white; color: black;">Document</option>
+                  </select>
                 </form>
+
+
               </div>
 
               <div class="font-[sans-serif] overflow-x-auto">
@@ -166,8 +200,8 @@ if(isset($_POST['add_courses_btn'])){
 
           <!-- ---------------------------------END courses-------------------------------- -->
 
-          <!----------------------------------------------- ADD courses ----------------------------------------------------------->
-          <div id="add_courses" class="fixed inset-0 p-4 hidden flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+          <!----------------------------------------------- ADD courses VIDEO ----------------------------------------------------------->
+          <div id="add_courses_video" class="fixed inset-0 p-4 hidden flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
             <div class="w-full max-w-lg bg-white shadow-lg rounded-lg p-8 relative">
               <?php if ($isValide) { ?>
                 <div class="flex items-center">
@@ -188,20 +222,40 @@ if(isset($_POST['add_courses_btn'])){
                 </div>
 
                 <form class="space-y-4 mt-8" action="" method="post" autocomplete="off">
-
                   <div>
-                    <!-- <label class="text-gray-800 text-sm mb-2 block">Titre</label> -->
-                    <input type="text" name="courses" placeholder="write tag here..."
+                    <label class="text-gray-800 text-sm mb-2 block">Titre</label>
+                    <input type="text" name="course_title" placeholder="write tag here..."
                       class="px-4 py-3 bg-gray-100 w-full text-gray-800 text-sm border-none focus:outline-blue-600 focus:bg-transparent rounded-lg" />
                   </div>
+
+                  <div>
+                    <label class="text-gray-800 text-sm mb-2 block">Description</label>
+                    <input type="text" name="course_description" placeholder="write tag here..."
+                      class="px-4 py-3 bg-gray-100 w-full text-gray-800 text-sm border-none focus:outline-blue-600 focus:bg-transparent rounded-lg" />
+                  </div>
+                  <div>
+                    <label class="text-gray-800 text-sm mb-2 block">URL video</label>
+                    <input type="text" name="course_content_video" placeholder="insert the link..."
+                      class="px-4 py-3 bg-gray-100 w-full text-gray-800 text-sm border-none focus:outline-blue-600 focus:bg-transparent rounded-lg" />
+                  </div>
+                  <div>
+                    <select name="course_category" id="ajoutBtn_course"
+                      class="block w-full mt-2 px-4 py-2 bg-white border border-gray-900 rounded-md shadow-sm focus:ring-0 focus:outline-none focus:border-gray-300">
+                      <option value="" disabled selected class="text-gray-900">Category</option>
+
+                      <?php foreach ($all_category as $category) { ?>
+                        <option value="<?= $category["category_name"]; ?>" class="text-gray-900"><?= $category["category_name"]; ?> </option>
+                      <?php } ?>
+                    </select>
+                  </div>
+
+                  <!-- Buttons -->
                   <div class="flex justify-end gap-4 !mt-8">
                     <button type="button" id="ajouteCancelQuiz"
                       class="px-6 py-3 rounded-lg text-gray-800 text-sm border-none outline-none tracking-wide bg-gray-200 hover:bg-gray-300">Cancel</button>
-                    <button type="submit" id="ajoutQuizBtn" name="add_courses_btn"
+                    <button type="submit" id="ajoutQuizBtn" name="add_courses_video"
                       class="px-6 py-3 rounded-lg text-white text-sm border-none outline-none tracking-wide bg-blue-600 hover:bg-blue-700">Ajouter</button>
                   </div>
-
-
                 </form>
 
               <?php } else { ?>
@@ -227,9 +281,95 @@ if(isset($_POST['add_courses_btn'])){
 
 
             </div>
+          </div>
 
 
-            <!----------------------------------------------- END ADD courses ----------------------------------------------------------->
+          <!----------------------------------------------- END ADD courses VIDEO ----------------------------------------------------------->
+
+          <!----------------------------------------------- ADD courses DOCUMENT ----------------------------------------------------------->
+          <div id="add_courses_document" class="fixed inset-0 p-4 hidden flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+            <div class="w-full max-w-lg bg-white shadow-lg rounded-lg p-8 relative">
+              <?php if ($isValide) { ?>
+                <div class="flex items-center">
+                  <h3 class="text-blue-600 text-3xl font-bold flex-1 text-center w-full">ADD COURES</h3>
+
+                  <div id="close4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
+                      viewBox="0 0 320.591 320.591">
+                      <path
+                        d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                        data-original="#000000"></path>
+                      <path
+                        d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                        data-original="#000000"></path>
+                    </svg>
+                  </div>
+
+                </div>
+
+                <form class="space-y-4 mt-8" action="" method="post" autocomplete="off">
+                  <div>
+                    <label class="text-gray-800 text-sm mb-2 block">Titre</label>
+                    <input type="text" name="course_title" placeholder="write tag here..."
+                      class="px-4 py-3 bg-gray-100 w-full text-gray-800 text-sm border-none focus:outline-blue-600 focus:bg-transparent rounded-lg" />
+                  </div>
+
+                  <div>
+                    <label class="text-gray-800 text-sm mb-2 block">Description</label>
+                    <input type="text" name="course_description" placeholder="write tag here..."
+                      class="px-4 py-3 bg-gray-100 w-full text-gray-800 text-sm border-none focus:outline-blue-600 focus:bg-transparent rounded-lg" />
+                  </div>
+                  <div>
+                    <label for="">document text</label>
+                    <textarea name="course_content_document" id=""></textarea>
+                  </div>
+                  <div>
+                    <select name="course_category" id="ajoutBtn_course"
+                      class="block w-full mt-2 px-4 py-2 bg-white border border-gray-900 rounded-md shadow-sm focus:ring-0 focus:outline-none focus:border-gray-300">
+                      <option value="" disabled selected class="text-gray-900">Category</option>
+
+                      <?php foreach ($all_category as $category) { ?>
+                        <option value="<?= $category["category_name"]; ?>" class="text-gray-900"><?= $category["category_name"]; ?> </option>
+                      <?php } ?>
+                    </select>
+                  </div>
+
+                  <!-- Buttons -->
+                  <div class="flex justify-end gap-4 !mt-8">
+                    <button type="button" id="ajouteCancelQuiz"
+                      class="px-6 py-3 rounded-lg text-gray-800 text-sm border-none outline-none tracking-wide bg-gray-200 hover:bg-gray-300">Cancel</button>
+                    <button type="submit" id="ajoutQuizBtn" name="add_courses_document"
+                      class="px-6 py-3 rounded-lg text-white text-sm border-none outline-none tracking-wide bg-blue-600 hover:bg-blue-700">Ajouter</button>
+                  </div>
+                </form>
+
+              <?php } else { ?>
+                <div class="relative flex items-center">
+                  <div id="close3" class="absolute top-0 right-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
+                      viewBox="0 0 320.591 320.591">
+                      <path
+                        d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                        data-original="#000000"></path>
+                      <path
+                        d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                        data-original="#000000"></path>
+                    </svg>
+                  </div>
+
+                  <h1>
+                    You need admin validation
+                  </h1>
+                </div>
+
+              <?php } ?>
+
+
+            </div>
+          </div>
+
+
+          <!----------------------------------------------- END ADD courses DOCUMENT ----------------------------------------------------------->
 
 
 
@@ -262,20 +402,43 @@ if(isset($_POST['add_courses_btn'])){
 
 
   // ---------------add course------------
-  let add_courses = document.getElementById("add_courses");
+  let add_courses_video = document.getElementById("add_courses_video");
+  let add_courses_document = document.getElementById("add_courses_document");
   let ajoutBtn_course = document.getElementById("ajoutBtn_course");
+  let close4 = document.getElementById("close4");
 
-  ajoutBtn_course.addEventListener("click", () => {
+  ajoutBtn_course.addEventListener("change", (e) => {
+    const selectedPage = e.target.value;
+    add_courses_video.classList.add("hidden");
+    add_courses_video.classList.remove("flex");
+    add_courses_document.classList.add("hidden");
+    add_courses_document.classList.remove("flex");
 
-    add_courses.classList.remove("hidden");
-    add_courses.classList.add("flex");
+    if (selectedPage === 'video') {
+
+      add_courses_video.classList.remove("hidden");
+      add_courses_video.classList.add("flex");
+
+    } else if (selectedPage === 'document') {
+
+      add_courses_document.classList.remove("hidden");
+      add_courses_document.classList.add("flex");
+
+    }
+
 
   });
 
   close3.addEventListener("click", () => {
 
-    add_courses.classList.remove("flex");
-    add_courses.classList.add("hidden");
+    add_courses_video.classList.remove("flex");
+    add_courses_video.classList.add("hidden");
+
+  });
+  close4.addEventListener("click", () => {
+
+    add_courses_document.classList.remove("flex");
+    add_courses_document.classList.add("hidden");
 
   });
 </script>

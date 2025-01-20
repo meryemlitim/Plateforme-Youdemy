@@ -38,15 +38,28 @@ CREATE TABLE course(
     id_course INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     description TEXT NOT NULL,
-    id_category INT,
+    category_name VARCHAR(255),
     create_by INT NOT NULL,
     type ENUM('video','document') NOT NULL,
-    video_url VARCHAR(255) NOT NULL DEFAULT video,
-    document_text TEXT NOT NULL DEFAULT document,
+    video_url VARCHAR(255), 
+    document_text TEXT,
     FOREIGN KEY (create_by) REFERENCES teacher(id_teacher) ON DELETE CASCADE,
-    FOREIGN KEY (id_category) REFERENCES category(id_category) ON DELETE CASCADE,
     date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+-- CREATE TABLE course(
+--     id_course INT AUTO_INCREMENT PRIMARY KEY,
+--     title VARCHAR(100) NOT NULL,
+--     description TEXT NOT NULL,
+--     id_category INT,
+    
+--     create_by INT NOT NULL,
+--     type ENUM('video','document') NOT NULL,
+--     video_url VARCHAR(255), 
+--     document_text TEXT,
+--     FOREIGN KEY (create_by) REFERENCES teacher(id_teacher) ON DELETE CASCADE,
+--     FOREIGN KEY (id_category) REFERENCES category(id_category) ON DELETE CASCADE,
+--     date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
 
 --ENROLLMENT Table
 CREATE TABLE enrollment(

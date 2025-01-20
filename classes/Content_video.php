@@ -16,10 +16,16 @@ class content_video extends courses
         parent::__construct(); 
     }
 
-    function addCourse($title){
-        $sql = "INSERT INTO course (title) VALUES (:title)";
+    function addCourse($title,$description,$category_name,$create_by,$type,$video_url){
+
+        $sql = "INSERT INTO course (title , description,category_name,create_by,type ,video_url) VALUES (:title , :description , :category_name , :create_by , :type ,:video_url)";
         $stmt = $this->connexion->prepare($sql);
         $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':description', $description);
+        $stmt->bindParam(':category_name', $category_name);
+        $stmt->bindParam(':create_by', $create_by);
+        $stmt->bindParam(':type', $type);
+        $stmt->bindParam(':video_url', $video_url);
         $stmt->execute();
     }
 
@@ -58,4 +64,3 @@ class content_video extends courses
     //     }
     // }
 }
-?>
