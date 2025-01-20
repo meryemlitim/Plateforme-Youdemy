@@ -49,6 +49,12 @@ if (isset($_POST['add_courses_document'])) {
 
 }
 
+if(isset($_POST['deleteCourse'])){
+  $id_course=$_POST['id_course'];
+  $course1->delete_course($id_course);
+
+}
+
 // if (isset($_POST['add_courses_btn_submit'])) {
 //   $title = $_POST['course_title'];
 //   $description = $_POST['course_description'];
@@ -109,6 +115,9 @@ if (isset($_POST['add_courses_document'])) {
                       <th class="p-4 text-left text-sm font-semibold text-black">
                         course Title
                       </th>
+                      <th class="p-4 text-left text-sm font-semibold text-black">
+                        course Type
+                      </th>
 
 
 
@@ -132,6 +141,15 @@ if (isset($_POST['add_courses_document'])) {
                           </div>
                         </div>
                       </td>
+                      
+                      <td class="p-4 text-sm">
+                        <div class="flex items-center cursor-pointer w-max">
+                          <div class="ml-4">
+                            <p class="text-sm text-black"> <?= $course["type"]; ?> </p>
+                          </div>
+                        </div>
+                      </td>
+
 
 
 
@@ -141,9 +159,9 @@ if (isset($_POST['add_courses_document'])) {
                         <form action="" method="POST">
                           <!-- <input type="hidden" name="id_tag_edit" value="<?= $course["id_course"]; ?>"> -->
                           <button type="submit" name="Tag_edit"
-                            class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-green-600 hover:bg-green-700 active:bg-red-600">
+                            class="px-4 py-2 flex items-center justify-center gap-2 rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-blue-600 hover:bg-blue-700 active:bg-red-600">
                             <span class="border-r border-white pr-3">Detail</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                               <circle cx="12" cy="12" r="10"></circle>
                               <line x1="12" y1="16" x2="12" y2="12"></line>
                               <line x1="12" y1="8" x2="12.01" y2="8"></line>
@@ -171,9 +189,9 @@ if (isset($_POST['add_courses_document'])) {
                       </td>
                       <td class="p-4">
 
-                        <form action="admin.php" method="POST">
-                          <!-- <input type="hidden" name="id_tag" value="<?= $course["id_course"]; ?>"> -->
-                          <button type="submit" name="deleteTag"
+                        <form action="" method="POST">
+                          <input type="hidden" name="id_course" value="<?= $course["id_course"]; ?>">
+                          <button type="submit" name="deleteCourse"
                             class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-red-600 hover:bg-red-700 active:bg-red-600">
                             <span class="border-r border-white pr-3">Delete</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 320.591 320.591">
@@ -205,18 +223,22 @@ if (isset($_POST['add_courses_document'])) {
                           </div>
                         </div>
                       </td>
-
-
-
+                      <td class="p-4 text-sm">
+                        <div class="flex items-center cursor-pointer w-max">
+                          <div class="ml-4">
+                            <p class="text-sm text-black"> <?= $course["type"]; ?> </p>
+                          </div>
+                        </div>
+                      </td>
 
                       <td class="p-4">
 
                         <form action="" method="POST">
                           <!-- <input type="hidden" name="id_tag_edit" value="<?= $course["id_course"]; ?>"> -->
                           <button type="submit" name="Tag_edit"
-                            class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-green-600 hover:bg-green-700 active:bg-red-600">
+                            class="px-4 py-2 flex items-center justify-center gap-2 rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-blue-600 hover:bg-blue-700 active:bg-red-600">
                             <span class="border-r border-white pr-3">Detail</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                               <circle cx="12" cy="12" r="10"></circle>
                               <line x1="12" y1="16" x2="12" y2="12"></line>
                               <line x1="12" y1="8" x2="12.01" y2="8"></line>
@@ -244,9 +266,9 @@ if (isset($_POST['add_courses_document'])) {
                       </td>
                       <td class="p-4">
 
-                        <form action="admin.php" method="POST">
-                          <!-- <input type="hidden" name="id_tag" value="<?= $course["id_course"]; ?>"> -->
-                          <button type="submit" name="deleteTag"
+                        <form action="" method="POST">
+                          <input type="hidden" name="id_course" value="<?= $course["id_course"]; ?>">
+                          <button type="submit" name="deleteCourse"
                             class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-red-600 hover:bg-red-700 active:bg-red-600">
                             <span class="border-r border-white pr-3">Delete</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 320.591 320.591">

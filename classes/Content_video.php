@@ -34,6 +34,12 @@ class content_video extends courses
         $stmt->execute();
         return $stmt->fetchAll();
     }
+    function delete_course($id_course){
+        $query="DELETE FROM course WHERE id_course = :id_course";
+        $stmt=$this->connexion->prepare($query);
+        $stmt->bindParam("id_course",$id_course);
+        $stmt->execute();
+    }
 
     // // Method to add a video course
     // public function addCourse($courseDetails)
