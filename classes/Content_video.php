@@ -28,6 +28,12 @@ class content_video extends courses
         $stmt->bindParam(':video_url', $video_url);
         $stmt->execute();
     }
+    function displayCourse($user_id){
+        $query="SELECT * FROM course WHERE type = 'video' and create_by=$user_id";
+        $stmt=$this->connexion->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 
     // // Method to add a video course
     // public function addCourse($courseDetails)

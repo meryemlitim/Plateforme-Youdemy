@@ -10,6 +10,7 @@ abstract class courses extends db
         $this->connexion = $this->connect();
     }
     abstract public function addCourse($title,$description,$category_name,$create_by,$type,$content_video);
+    abstract public function displayCourse($user_id);
 
     // public function addCourse($courseDetails);
     // public function displayCourses();

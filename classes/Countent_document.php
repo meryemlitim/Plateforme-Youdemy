@@ -22,4 +22,10 @@ function addCourse($title,$description,$category_name,$create_by,$type,$document
         $stmt->bindParam(':document_text', $document_text);
         $stmt->execute();
     }
+    function displayCourse($user_id){
+        $query="SELECT * FROM course WHERE type = 'document'and create_by=$user_id";
+        $stmt=$this->connexion->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 }
