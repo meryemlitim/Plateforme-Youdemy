@@ -48,20 +48,58 @@ if (isset($_POST['add_courses_document'])) {
   header("location:teacher.php");
 
 }
-
+// ------------------delete--------------
 if(isset($_POST['deleteCourse'])){
   $id_course=$_POST['id_course'];
   $course1->delete_course($id_course);
 
 }
 
-// if (isset($_POST['add_courses_btn_submit'])) {
-//   $title = $_POST['course_title'];
-//   $description = $_POST['course_description'];
-//   $type = $_POST['course_type'];
+// -----------edit video-----------
 
-//   // $course->addCourse($title);
-// }
+if (isset($_POST['course_video_edit'])) {
+  $id_course = $_POST['id_course'];
+  $getcourseDetail=$course1->getcourseDetail($id_course);
+
+  include "video_edit.php";
+  
+}
+
+if (isset($_POST['edit_courses_video'])) {
+  $id_course = $_POST['id_course'];
+  $title = $_POST['course_title'];
+  $description = $_POST['course_description'];
+  $video_url = $_POST['course_content_video'];
+  $category_name = $_POST['course_category'];
+  $course1->editCourse($id_course,$title, $description, $category_name, $video_url);
+  header("location:teacher.php");
+
+
+
+}
+// -----------edit document-----------
+
+if (isset($_POST['course_document_edit'])) {
+  $id_course = $_POST['id_course'];
+  $getcourseDetail=$course1->getcourseDetail($id_course);
+
+  include "document_edit.php";
+  
+}
+
+if (isset($_POST['edit_courses_document'])) {
+  $id_course = $_POST['id_course'];
+  $title = $_POST['course_title'];
+  $description = $_POST['course_description'];
+  $document_text = $_POST['course_content_document'];
+  $category_name = $_POST['course_category'];
+  $course->editCourse($id_course,$title, $description, $category_name, $document_text);
+  header("location:teacher.php");
+
+
+  
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -137,6 +175,8 @@ if(isset($_POST['deleteCourse'])){
                       <td class="p-4 text-sm">
                         <div class="flex items-center cursor-pointer w-max">
                           <div class="ml-4">
+                          <input type="text" value="<?= htmlspecialchars($course['id_course'] ?? '') ?>" >
+
                             <p class="text-sm text-black"> <?= $course["title"]; ?> </p>
                           </div>
                         </div>
@@ -175,8 +215,8 @@ if(isset($_POST['deleteCourse'])){
                       <td class="p-4">
 
                         <form action="" method="POST">
-                          <!-- <input type="hidden" name="id_tag_edit" value="<?= $course["id_course"]; ?>"> -->
-                          <button type="submit" name="Tag_edit"
+                          <input type="hidden" name="id_course" value="<?= $course["id_course"]; ?>">
+                          <button type="submit" name="course_video_edit"
                             class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-green-600 hover:bg-green-700 active:bg-red-600">
                             <span class="border-r border-white pr-3">Edit</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 24 24">
@@ -243,8 +283,6 @@ if(isset($_POST['deleteCourse'])){
                               <line x1="12" y1="16" x2="12" y2="12"></line>
                               <line x1="12" y1="8" x2="12.01" y2="8"></line>
                             </svg>
-
-
                           </button>
                         </form>
 
@@ -252,8 +290,8 @@ if(isset($_POST['deleteCourse'])){
                       <td class="p-4">
 
                         <form action="" method="POST">
-                          <!-- <input type="hidden" name="id_tag_edit" value="<?= $course["id_course"]; ?>"> -->
-                          <button type="submit" name="Tag_edit"
+                          <input type="hidden" name="id_course" value="<?= $course["id_course"]; ?>">
+                          <button type="submit" name="course_document_edit"
                             class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-green-600 hover:bg-green-700 active:bg-red-600">
                             <span class="border-r border-white pr-3">Edit</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 24 24">
@@ -265,7 +303,6 @@ if(isset($_POST['deleteCourse'])){
 
                       </td>
                       <td class="p-4">
-
                         <form action="" method="POST">
                           <input type="hidden" name="id_course" value="<?= $course["id_course"]; ?>">
                           <button type="submit" name="deleteCourse"

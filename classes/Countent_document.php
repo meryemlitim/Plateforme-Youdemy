@@ -28,4 +28,16 @@ function addCourse($title,$description,$category_name,$create_by,$type,$document
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    function editCourse($id_course,$title, $description, $category_name, $document_text){
+        $query="UPDATE course SET title = :title , description= :description ,category_name= :category_name ,document_text= :document_text  where id_course = :id_course";
+        $stmt=$this->connexion->prepare($query);
+        $stmt->bindParam(':id_course', $id_course);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':description', $description);
+        $stmt->bindParam(':category_name', $category_name);
+        $stmt->bindParam(':document_text', $document_text);
+        $stmt->execute();
+    }
+
 }

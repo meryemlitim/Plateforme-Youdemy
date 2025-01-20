@@ -41,38 +41,37 @@ class content_video extends courses
         $stmt->execute();
     }
 
-    // // Method to add a video course
-    // public function addCourse($courseDetails)
-    // {
-    //     try {
-    //         $sql = "INSERT INTO course (title, description, id_category, type, create_by) 
-    //                 VALUES (:title, :description, :id_category, 'video', :create_by)";
-    //         $stmt = $this->connexion->prepare($sql);
-    //         $stmt->bindParam(':title', $courseDetails['title']);
-    //         $stmt->bindParam(':description', $courseDetails['description']);
-    //         $stmt->bindParam(':id_category', $courseDetails['id_category']);
-    //         $stmt->bindParam(':create_by', $courseDetails['create_by']);
-    //         $stmt->execute();
 
-    //         return $this->connexion->lastInsertId(); // Returns the ID of the inserted course
-    //     } catch (PDOException $e) {
-    //         echo "Error adding course: " . $e->getMessage();
-    //         return false;
-    //     }
-    // }
+    function getcourseDetail($id_course){
+        $query = "SELECT * FROM course where id_course=:id_course";
+        $stmt = $this->connexion->prepare($query);
+        $stmt->bindParam('id_course',$id_course);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
+
+function editCourse($id_course,$title, $description, $category_name, $video_url){
+    $query="UPDATE course SET title = :title , description= :description ,category_name= :category_name ,video_url= :video_url  where id_course = :id_course";
+    $stmt=$this->connexion->prepare($query);
+    $stmt->bindParam(':id_course', $id_course);
+    $stmt->bindParam(':title', $title);
+    $stmt->bindParam(':description', $description);
+    $stmt->bindParam(':category_name', $category_name);
+    $stmt->bindParam(':video_url', $video_url);
+    $stmt->execute();
+}
+
+
+
+
+
+
+
+
+
+
+    }
 
     
-    // public function displayCourses()
-    // {
-    //     try {
-    //         $sql = "SELECT * FROM course WHERE type = 'video'";
-    //         $stmt = $this->connexion->prepare($sql);
-    //         $stmt->execute();
-
-    //         return $stmt->fetchAll(); // Fetch all video courses
-    //     } catch (PDOException $e) {
-    //         echo "Error fetching courses: " . $e->getMessage();
-    //         return [];
-    //     }
-    // }
-}

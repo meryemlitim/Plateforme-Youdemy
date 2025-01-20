@@ -12,7 +12,9 @@
             <form class="space-y-4 mt-8" action="" method="post" autocomplete="off">
 
                 <div>
-                    <!-- <label class="text-gray-800 text-sm mb-2 block">Titre</label> -->
+                    <!-- <label class="text-gray-800 text-sm mb-2 block">Titre
+                        
+                    </label> -->
                     <input type="text" name="newCategory_name" placeholder="<?php echo $update_category["category_name"]?>"
                         class="px-4 py-3 bg-gray-100 w-full text-gray-800 text-sm border-none focus:outline-blue-600 focus:bg-transparent rounded-lg" />
                 </div>

@@ -88,7 +88,7 @@ class users extends db
 
     public function getUsers()
     {
-        $query = "SELECT * FROM users;";
+        $query = "SELECT * FROM users";
         $stmt = $this->connexion->prepare($query);
         $stmt->execute();
 
