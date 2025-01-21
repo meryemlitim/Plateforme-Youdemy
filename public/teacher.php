@@ -110,6 +110,14 @@ if(isset($_POST['course_video_detail'])){
 
 
 }
+if(isset($_POST['course_document_detail'])){
+  $id_course = $_POST['id_course'];
+  $getcourseDetail=$course1->getcourseDetail($id_course);
+    include "detail_document.php";
+    // header("location:detail_video.php");
+
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -285,8 +293,8 @@ if(isset($_POST['course_video_detail'])){
                       <td class="p-4">
 
                         <form action="" method="POST">
-                          <!-- <input type="hidden" name="id_tag_edit" value="<?= $course["id_course"]; ?>"> -->
-                          <button type="submit" name="Tag_edit"
+                          <input type="hidden" name="id_course" value="<?= $course["id_course"]; ?>">
+                          <button type="submit" name="course_document_detail"
                             class="px-4 py-2 flex items-center justify-center gap-2 rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-blue-600 hover:bg-blue-700 active:bg-red-600">
                             <span class="border-r border-white pr-3">Detail</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

@@ -23,9 +23,9 @@
                 <input type="text" name="course_description" placeholder="write tag here..." value="<?= htmlspecialchars($Detail['description'] ?? '') ?>"
                     class="px-4 py-3 bg-gray-100 w-full text-gray-800 text-sm border-none focus:outline-blue-600 focus:bg-transparent rounded-lg" />
             </div>
-            <div>
-                <label for="">document text</label>
-                <textarea name="course_content_document"  ><?= htmlspecialchars($Detail['document_text'] ?? '') ?></textarea>
+            <div >
+                <label class="text-gray-800 text-sm mb-2 block">document text</label>
+                <textarea name="course_content_document" class="px-4 py-3 bg-gray-100 w-full text-gray-800 text-sm border-none focus:outline-blue-600 focus:bg-transparent rounded-lg"   ><?= htmlspecialchars($Detail['document_text'] ?? '') ?></textarea>
             </div>
             <div>
                 <select name="course_category" id="ajoutBtn_course"
