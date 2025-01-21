@@ -43,7 +43,7 @@ CREATE TABLE course(
     type ENUM('video','document') NOT NULL,
     video_url VARCHAR(255), 
     document_text TEXT,
-    FOREIGN KEY (create_by) REFERENCES teacher(id_teacher) ON DELETE CASCADE,
+    FOREIGN KEY (create_by) REFERENCES users(id_user) ON DELETE CASCADE,
     date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 -- CREATE TABLE course(

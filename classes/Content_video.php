@@ -43,7 +43,7 @@ class content_video extends courses
 
 
     function getcourseDetail($id_course){
-        $query = "SELECT * FROM course where id_course=:id_course";
+        $query = "SELECT * FROM course join users on users.id_user=course.create_by where id_course=:id_course";
         $stmt = $this->connexion->prepare($query);
         $stmt->bindParam('id_course',$id_course);
         $stmt->execute();
