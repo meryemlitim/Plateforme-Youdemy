@@ -59,17 +59,18 @@ CREATE TABLE course(
 --     FOREIGN KEY (create_by) REFERENCES teacher(id_teacher) ON DELETE CASCADE,
 --     FOREIGN KEY (id_category) REFERENCES category(id_category) ON DELETE CASCADE,
 --     date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
 -- );
 
 --ENROLLMENT Table
 CREATE TABLE enrollment(
     id_enrollment INT AUTO_INCREMENT PRIMARY KEY,
-    id_course INT NOT NULL,
-    id_student INT NOT NULL,
+    id_course INT NOT NULL,   
+    id_user INT NOT NULL,
     enrollment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_course) REFERENCES course(id_course) ON DELETE CASCADE,
-    FOREIGN KEY (id_student) REFERENCES course(id_student) ON DELETE CASCADE
-);
+    FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE CASCADE
+); 
 
 --TAG Table
 CREATE TABLE tag(
