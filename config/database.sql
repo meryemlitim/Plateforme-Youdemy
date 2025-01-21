@@ -65,7 +65,7 @@ CREATE TABLE course(
 --ENROLLMENT Table
 CREATE TABLE enrollment(
     id_enrollment INT AUTO_INCREMENT PRIMARY KEY,
-    id_course INT NOT NULL,   
+    id_course INT NOT NULL,    
     id_user INT NOT NULL,
     enrollment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_course) REFERENCES course(id_course) ON DELETE CASCADE,

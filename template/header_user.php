@@ -33,7 +33,7 @@
              <a href="index.php" class="text-gray-500 font-extrabold hover:text-blue-600">Home</a>
              <a href="about.html" class="text-gray-500 font-extrabold hover:text-blue-600">About</a>
              <?php if (!empty($_SESSION["user_id"]) & $role== "student" ) { ?>
-                 <a href="course.html" class="text-gray-500 font-extrabold hover:text-blue-600">My Courses</a>
+                 <a href="my_course_list.php" class="text-gray-500 font-extrabold hover:text-blue-600">My Courses</a>
              <?php } ?>
 
              <a href="contact.html" class="text-gray-500 font-extrabold hover:text-blue-600">Contact</a>

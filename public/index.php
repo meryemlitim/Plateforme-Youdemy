@@ -68,25 +68,25 @@ $getcourseDetail = $course1->allCourses();
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <?php foreach ($getcourseDetail as $Detail) { ?>
                     <!-- <form method="post"> -->
-                        <div class=" course_detail relative pb-4 w-3/4 mx-auto ">
-                            <a class="relative block overflow-hidden mb-2"
-                                <?php if ($Detail['type'] == 'video') { ?>
-                                href="detail_video.php?id_course=<?= $Detail['id_course'] ?>"
-                                <?php } else { ?>
-                                href="detail_document.php?id_course=<?= $Detail['id_course'] ?>"
+                    <div class=" course_detail relative pb-4 w-3/4 mx-auto ">
+                        <a class="relative block overflow-hidden mb-2"
+                            <?php if ($Detail['type'] == 'video') { ?>
+                            href="detail_video.php?id_course=<?= $Detail['id_course'] ?>"
+                            <?php } else { ?>
+                            href="detail_document.php?id_course=<?= $Detail['id_course'] ?>"
 
-                                <?php } ?>>
-                                <img class="w-full h-auto" src="https://cdn.vectorstock.com/i/thumb-large/27/08/avatar-woman-and-learning-online-concept-vector-28092708.jpg" alt=""> <!-- Image width reduced -->
-                                <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
-                                    <h4 class="text-center"><?= htmlspecialchars($Detail['title'] ?? '') ?></h4>
-                                    <div class="border-t mt-3">
-                                        <div class="flex justify-between p-4">
-                                            <span><i class="fa fa-user mr-2"></i><?= htmlspecialchars($Detail['username'] ?? '') ?></span>
-                                        </div>
+                            <?php } ?>>
+                            <img class="w-full h-auto" src="https://cdn.vectorstock.com/i/thumb-large/27/08/avatar-woman-and-learning-online-concept-vector-28092708.jpg" alt=""> <!-- Image width reduced -->
+                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
+                                <h4 class="text-center"><?= htmlspecialchars($Detail['title'] ?? '') ?></h4>
+                                <div class="border-t mt-3">
+                                    <div class="flex justify-between p-4">
+                                        <span><i class="fa fa-user mr-2"></i><?= htmlspecialchars($Detail['username'] ?? '') ?></span>
                                     </div>
                                 </div>
-                            </a>
-                        </div>
+                            </div>
+                        </a>
+                    </div>
                     <!-- </form> -->
                 <?php } ?>
 
@@ -115,28 +115,29 @@ $getcourseDetail = $course1->allCourses();
                 </nav>
             </div>
         </div>
-        <!-- Courses End -->
+    </div>
+    <!-- Courses End -->
 
 
 
-        <?php include "../template/footer.php" ?>
+    <?php include "../template/footer.php" ?>
 
 
-        <script>
-            const menuToggle = document.getElementById('menuToggle');
-            const navbarCollapse = document.getElementById('navbarCollapse');
-            menuToggle.addEventListener('click', () => {
-                navbarCollapse.classList.toggle('hidden');
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navbarCollapse = document.getElementById('navbarCollapse');
+        menuToggle.addEventListener('click', () => {
+            navbarCollapse.classList.toggle('hidden');
+        });
+
+
+        document.querySelectorAll(".course_detail").forEach((counter) => {
+            counter.addEventListener('click', function() {
+                const form = this.closest("form");
+                form.submit();
             });
-
-
-            document.querySelectorAll(".course_detail").forEach((counter) => {
-                counter.addEventListener('click', function() {
-                    const form = this.closest("form");
-                    form.submit();
-                });
-            });
-        </script>
+        });
+    </script>
 </body>
 
 </html>

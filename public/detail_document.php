@@ -18,11 +18,10 @@ if (isset($_GET['id_course'])) {
     $id_course = $_GET['id_course'];
     $getcourseDetail = $course1->getcourseDetail($id_course);
 }
-if (isset($_GET['id_course_enrolle'])) {
+if (isset($_POST['course_enrollement'])) {
 
-    $id_course = $_GET['id_course_enrolle'];
-    $id_student=$user_id;
-    $insertEnrollement = $enrollement->insertEnrollement($id_course,$id_student);
+    $id_course = $_POST['id_course'];
+    $insertEnrollement = $enrollement->insertEnrollement($id_course, $user_id);
 }
 ?>
 <?php if ($role == 'teacher') { ?>
@@ -72,8 +71,8 @@ if (isset($_GET['id_course_enrolle'])) {
 
                     <div class="flex justify-between">
                         <h1 class="text-3xl font-bold text-blue-600 mb-4"><?= htmlspecialchars($Detail['title'] ?? '') ?></h1>
-                        <a href="detail_document.php?id_course=<?= $Detail["id_course"]; ?>">
-                            <!-- <input type="hidden" name="id_course" value="<?= $Detail["id_course"]; ?>"> -->
+                        <form action="" method="post">
+                            <input type="hidden" name="id_course" value="<?= $Detail["id_course"]; ?>">
                             <button type="submit" name="course_enrollement"
                                 class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-green-600 hover:bg-green-700 active:bg-red-600">
                                 <span class="border-r border-white pr-3">Enrollement</span>
@@ -82,7 +81,7 @@ if (isset($_GET['id_course_enrolle'])) {
                                 </svg>
 
                             </button>
-                        </a>
+                            </form>
 
                     </div>
                     <p class="text-gray-700 mb-2"><strong>Description:</strong><?= htmlspecialchars($Detail['description'] ?? '') ?></p>
