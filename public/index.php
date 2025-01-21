@@ -1,3 +1,21 @@
+<?php
+require_once "../config/database.php";
+require_once "../classes/User.php";
+require_once "../classes/Teacher.php";
+require_once "../classes/Category.php";
+require_once "../classes/Course.php";
+require_once "../classes/Content_video.php";
+require_once "../classes/Countent_document.php";
+
+$user_id = $_SESSION["user_id"] ?? "";
+$role = $_SESSION["role"] ?? "";
+
+$course1 = new content_video();
+
+$getcourseDetail = $course1->allCourses();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,86 +66,30 @@
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Reduced width of grid items -->
-                <div class="relative pb-4 w-3/4 mx-auto">
-                    <a class="relative block overflow-hidden mb-2" href="detail.html">
-                        <img class="w-full h-auto" src="https://images.pexels.com/photos/7988115/pexels-photo-7988115.jpeg?auto=compress&cs=tinysrgb&w=600" alt=""> <!-- Image width reduced -->
-                        <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
-                            <h4 class="text-center">Web design & development courses for beginners</h4>
-                            <div class="border-t mt-3">
-                                <div class="flex justify-between p-4">
-                                    <span><i class="fa fa-user mr-2"></i>Jhon Doe</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                <?php foreach ($getcourseDetail as $Detail) { ?>
+                    <!-- <form method="post"> -->
+                        <div class=" course_detail relative pb-4 w-3/4 mx-auto ">
+                            <a class="relative block overflow-hidden mb-2"
+                                <?php if ($Detail['type'] == 'video') { ?>
+                                href="detail_video.php?id_course=<?= $Detail['id_course'] ?>"
+                                <?php } else { ?>
+                                href="detail_document.php?id_course=<?= $Detail['id_course'] ?>"
 
-                <div class="relative pb-4 w-3/4 mx-auto">
-                    <a class="relative block overflow-hidden mb-2" href="detail.html">
-                        <img class="w-full h-auto" src="https://images.pexels.com/photos/7988115/pexels-photo-7988115.jpeg?auto=compress&cs=tinysrgb&w=600" alt=""> <!-- Image width reduced -->
-                        <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
-                            <h4 class="text-center">Web design & development courses for beginners</h4>
-                            <div class="border-t mt-3">
-                                <div class="flex justify-between p-4">
-                                    <span><i class="fa fa-user mr-2"></i>Jhon Doe</span>
+                                <?php } ?>>
+                                <img class="w-full h-auto" src="https://cdn.vectorstock.com/i/thumb-large/27/08/avatar-woman-and-learning-online-concept-vector-28092708.jpg" alt=""> <!-- Image width reduced -->
+                                <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
+                                    <h4 class="text-center"><?= htmlspecialchars($Detail['title'] ?? '') ?></h4>
+                                    <div class="border-t mt-3">
+                                        <div class="flex justify-between p-4">
+                                            <span><i class="fa fa-user mr-2"></i><?= htmlspecialchars($Detail['username'] ?? '') ?></span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
-                    </a>
-                </div>
-                <div class="relative pb-4 w-3/4 mx-auto">
-                    <a class="relative block overflow-hidden mb-2" href="detail.html">
-                        <img class="w-full h-auto" src="https://images.pexels.com/photos/7988115/pexels-photo-7988115.jpeg?auto=compress&cs=tinysrgb&w=600" alt=""> <!-- Image width reduced -->
-                        <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
-                            <h4 class="text-center">Web design & development courses for beginners</h4>
-                            <div class="border-t mt-3">
-                                <div class="flex justify-between p-4">
-                                    <span><i class="fa fa-user mr-2"></i>Jhon Doe</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="relative pb-4 w-3/4 mx-auto">
-                    <a class="relative block overflow-hidden mb-2" href="detail.html">
-                        <img class="w-full h-auto" src="https://images.pexels.com/photos/7988115/pexels-photo-7988115.jpeg?auto=compress&cs=tinysrgb&w=600" alt=""> <!-- Image width reduced -->
-                        <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
-                            <h4 class="text-center">Web design & development courses for beginners</h4>
-                            <div class="border-t mt-3">
-                                <div class="flex justify-between p-4">
-                                    <span><i class="fa fa-user mr-2"></i>Jhon Doe</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="relative pb-4 w-3/4 mx-auto">
-                    <a class="relative block overflow-hidden mb-2" href="detail.html">
-                        <img class="w-full h-auto" src="https://images.pexels.com/photos/7988115/pexels-photo-7988115.jpeg?auto=compress&cs=tinysrgb&w=600" alt=""> <!-- Image width reduced -->
-                        <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
-                            <h4 class="text-center">Web design & development courses for beginners</h4>
-                            <div class="border-t mt-3">
-                                <div class="flex justify-between p-4">
-                                    <span><i class="fa fa-user mr-2"></i>Jhon Doe</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="relative pb-4 w-3/4 mx-auto">
-                    <a class="relative block overflow-hidden mb-2" href="detail.html">
-                        <img class="w-full h-auto" src="https://images.pexels.com/photos/7988115/pexels-photo-7988115.jpeg?auto=compress&cs=tinysrgb&w=600" alt=""> <!-- Image width reduced -->
-                        <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
-                            <h4 class="text-center">Web design & development courses for beginners</h4>
-                            <div class="border-t mt-3">
-                                <div class="flex justify-between p-4">
-                                    <span><i class="fa fa-user mr-2"></i>Jhon Doe</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                    <!-- </form> -->
+                <?php } ?>
+
 
             </div>
             <!-- Pagination -->
@@ -165,6 +127,14 @@
             const navbarCollapse = document.getElementById('navbarCollapse');
             menuToggle.addEventListener('click', () => {
                 navbarCollapse.classList.toggle('hidden');
+            });
+
+
+            document.querySelectorAll(".course_detail").forEach((counter) => {
+                counter.addEventListener('click', function() {
+                    const form = this.closest("form");
+                    form.submit();
+                });
             });
         </script>
 </body>

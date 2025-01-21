@@ -50,6 +50,13 @@ class content_video extends courses
 
         return $stmt->fetchAll();
     }
+    function allCourses(){
+        $query = "SELECT * FROM course join users on users.id_user=course.create_by ";
+        $stmt = $this->connexion->prepare($query);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
 
 
 function editCourse($id_course,$title, $description, $category_name, $video_url){

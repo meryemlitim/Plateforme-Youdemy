@@ -38,16 +38,18 @@
 
              <a href="contact.html" class="text-gray-500 font-extrabold hover:text-blue-600">Contact</a>
          </div>
-         <?php if (empty($_SESSION["user_id"])) { ?>
-             <a href="login.php" class="hidden lg:block bg-blue-600 text-white py-2 px-4 rounded">LOGIN</a>
-         <?php } else { ?>
+         <?php if (!empty($_SESSION["user_id"])  & $role== "student") { ?>
+            
             <div class="flex items-center gap-4">
                  <p class="text-gray-500 text-sm">Hi, <?= $username["username"] ?></p>
-                 <img src="https://readymadeui.com/team-1.webp" alt="profile-pic"
+                 <img src="https://cdn2.iconfinder.com/data/icons/circle-avatars-1/128/050_girl_avatar_profile_woman_suit_student_officer-512.png" alt="profile-pic"
                      class="w-[38px] h-[38px] rounded-full border-2 border-gray-300 cursor-pointer" />
              </div>
              <a href="logout.php" class="hidden lg:block bg-blue-600 text-white py-2 px-4 rounded">LOGOUT</a>
              
+         <?php } else { ?>
+            <a href="login.php" class="hidden lg:block bg-blue-600 text-white py-2 px-4 rounded">LOGIN</a>
+
          <?php } ?>
 
      </nav>
