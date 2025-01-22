@@ -5,6 +5,10 @@ require_once "../classes/Teacher.php";
 require_once "../classes/Student.php";
 require_once "../classes/Tag.php";
 require_once "../classes/Category.php";
+require_once "../classes/Enrollement.php";
+require_once "../classes/Course.php";
+require_once "../classes/Content_video.php";
+require_once "../classes/Countent_document.php";
 
 
 $user = new users();
@@ -12,6 +16,8 @@ $teacher = new teachers();
 $student = new students();
 $tag = new tags();
 $category = new categries();
+$enrollement = new enrollement();
+$course = new content_video();
 
 $user_id = $_SESSION["user_id"] ?? "";
 $role = $_SESSION["role"] ?? "";
@@ -19,7 +25,10 @@ $role = $_SESSION["role"] ?? "";
 $all_student = $student->dispaly_student();
 $all_teacher = $teacher->dispaly_teacher();
 $all_tag = $tag->dispaly_tag();
-
+$total_student = $user->studentTotalNumber();
+$total_teacher = $user->teacherTotalNumber();
+$total_enrollement = $enrollement->totalEnrollement();
+$total_course = $course->totalCourseNumber();
 
 if (isset($_POST["status"])) {
 
@@ -163,65 +172,173 @@ if (isset($_POST['update_category'])) {
                 <section class="main-content w-full px-8">
 
                     <?php include "../template/header_admin.php" ?>
+                    <!-- -------------------------------admin home----------------------------- -->
+                    <section id="admin_home">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <div class="flex items-center">
+                                    <div class="p-3 bg-pink-500 rounded-full text-white">
+                                        <svg class="w-[50px] h-[50px] fill-[#ffffff]" viewBox="0 0 640 512" xmlns="http://www.w3.org/2000/svg">
 
-                    <!--------------------------------------------- STUDENT MANAGEMENT ---------------------------------------------------------->
+                                            <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                            <path d="M320 32c-8.1 0-16.1 1.4-23.7 4.1L15.8 137.4C6.3 140.9 0 149.9 0 160s6.3 19.1 15.8 22.6l57.9 20.9C57.3 229.3 48 259.8 48 291.9v28.1c0 28.4-10.8 57.7-22.3 80.8c-6.5 13-13.9 25.8-22.5 37.6C0 442.7-.9 448.3 .9 453.4s6 8.9 11.2 10.2l64 16c4.2 1.1 8.7 .3 12.4-2s6.3-6.1 7.1-10.4c8.6-42.8 4.3-81.2-2.1-108.7C90.3 344.3 86 329.8 80 316.5V291.9c0-30.2 10.2-58.7 27.9-81.5c12.9-15.5 29.6-28 49.2-35.7l157-61.7c8.2-3.2 17.5 .8 20.7 9s-.8 17.5-9 20.7l-157 61.7c-12.4 4.9-23.3 12.4-32.2 21.6l159.6 57.6c7.6 2.7 15.6 4.1 23.7 4.1s16.1-1.4 23.7-4.1L624.2 182.6c9.5-3.4 15.8-12.5 15.8-22.6s-6.3-19.1-15.8-22.6L343.7 36.1C336.1 33.4 328.1 32 320 32zM128 408c0 35.3 86 72 192 72s192-36.7 192-72L496.7 262.6 354.5 314c-11.1 4-22.8 6-34.5 6s-23.5-2-34.5-6L143.3 262.6 128 408z"></path>
 
-                    <section id="user" class="flex flex-col items-center bg-gray-50 min-h-screen p-6 hidden">
-                        <!-- Header -->
-                        <div class="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6 space-y-6">
-                            <div class="flex justify-between items-center">
-                                <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
-                                    STUDENT MANAGEMENT
-                                </h1>
+                                        </svg>
 
+
+
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="text-lg font-semibold text-gray-700">Total Student</h4>
+                                        <p class="text-2xl font-bold text-gray-900"><?= $total_student ?></p>
+                                    </div>
+                                </div>
                             </div>
 
-                            <!-- Table -->
-                            <div class="font-[sans-serif] overflow-x-auto">
-                                <table class="min-w-full bg-white">
-                                    <thead class="whitespace-nowrap">
-                                        <tr>
-                                            <th class="p-4 text-left text-sm font-semibold text-black">
-                                                user id
-                                            </th>
-                                            <th class="p-4 text-left text-sm font-semibold text-black">
-                                                Name
-                                            </th>
+                            <!-- Card 2 -->
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <div class="flex items-center">
+                                    <div class="p-3 bg-green-500 rounded-full text-white">
+                                        <svg class="w-[50px] h-[50px] fill-[#ffffff]" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
 
-                                            <th class="p-4 text-left text-sm font-semibold text-black">
-                                                Blocked
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 fill-gray-400 inline cursor-pointer ml-2"
-                                                    viewBox="0 0 401.998 401.998">
-                                                    <path
-                                                        d="M73.092 164.452h255.813c4.949 0 9.233-1.807 12.848-5.424 3.613-3.616 5.427-7.898 5.427-12.847s-1.813-9.229-5.427-12.85L213.846 5.424C210.232 1.812 205.951 0 200.999 0s-9.233 1.812-12.85 5.424L60.242 133.331c-3.617 3.617-5.424 7.901-5.424 12.85 0 4.948 1.807 9.231 5.424 12.847 3.621 3.617 7.902 5.424 12.85 5.424zm255.813 73.097H73.092c-4.952 0-9.233 1.808-12.85 5.421-3.617 3.617-5.424 7.898-5.424 12.847s1.807 9.233 5.424 12.848L188.149 396.57c3.621 3.617 7.902 5.428 12.85 5.428s9.233-1.811 12.847-5.428l127.907-127.906c3.613-3.614 5.427-7.898 5.427-12.848 0-4.948-1.813-9.229-5.427-12.847-3.614-3.616-7.899-5.42-12.848-5.42z"
-                                                        data-original="#000000" />
-                                                </svg>
-                                            </th>
-                                            <!-- <th class="p-4 text-left text-sm font-semibold text-black">
+                                            <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                            <path d="M224 256A128 128 0 1 1 224 0a128 128 0 1 1 0 256zM209.1 359.2l-18.6-31c-6.4-10.7 1.3-24.2 13.7-24.2H224h19.7c12.4 0 20.1 13.6 13.7 24.2l-18.6 31 33.4 123.9 36-146.9c2-8.1 9.8-13.4 17.9-11.3c70.1 17.6 121.9 81 121.9 156.4c0 17-13.8 30.7-30.7 30.7H285.5c-2.1 0-4-.4-5.8-1.1l.3 1.1H168l.3-1.1c-1.8 .7-3.8 1.1-5.8 1.1H30.7C13.8 512 0 498.2 0 481.3c0-75.5 51.9-138.9 121.9-156.4c8.1-2 15.9 3.3 17.9 11.3l36 146.9 33.4-123.9z"></path>
+
+                                        </svg>
+
+
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="text-lg font-semibold text-gray-700">Total Teacher</h4>
+                                        <p class="text-2xl font-bold text-gray-900"><?= $total_teacher ?></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <div class="flex items-center">
+                                    <div class="p-3 bg-yellow-500 rounded-full text-white">
+                                        <svg class="w-[50px] h-[50px] fill-[#ffffff]" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
+
+                                            <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                            <path d="M349.4 44.6c5.9-13.7 1.5-29.7-10.6-38.5s-28.6-8-39.9 1.8l-256 224c-10 8.8-13.6 22.9-8.9 35.3S50.7 288 64 288H175.5L98.6 467.4c-5.9 13.7-1.5 29.7 10.6 38.5s28.6 8 39.9-1.8l256-224c10-8.8 13.6-22.9 8.9-35.3s-16.6-20.7-30-20.7H272.5L349.4 44.6z"></path>
+
+                                        </svg>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="text-lg font-semibold text-gray-700">Total Enrollement</h4>
+                                        <p class="text-2xl font-bold text-gray-900"><?= $total_enrollement ?></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 4 -->
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <div class="flex items-center">
+                                    <div class="p-3 bg-red-500 rounded-full text-white">
+                                        <svg class="w-[50px] h-[50px] fill-[#ffffff]" viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg">
+
+                                            <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                            <path d="M249.6 471.5c10.8 3.8 22.4-4.1 22.4-15.5V78.6c0-4.2-1.6-8.4-5-11C247.4 52 202.4 32 144 32C93.5 32 46.3 45.3 18.1 56.1C6.8 60.5 0 71.7 0 83.8V454.1c0 11.9 12.8 20.2 24.1 16.5C55.6 460.1 105.5 448 144 448c33.9 0 79 14 105.6 23.5zm76.8 0C353 462 398.1 448 432 448c38.5 0 88.4 12.1 119.9 22.6c11.3 3.8 24.1-4.6 24.1-16.5V83.8c0-12.1-6.8-23.3-18.1-27.6C529.7 45.3 482.5 32 432 32c-58.4 0-103.4 20-123 35.6c-3.3 2.6-5 6.8-5 11V456c0 11.4 11.7 19.3 22.4 15.5z"></path>
+
+                                        </svg>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="text-lg font-semibold text-gray-700">Total Course</h4>
+                                        <p class="text-2xl font-bold text-gray-900"><?= $total_course ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 p-6">
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <div class="flex items-center">
+
+                                    <div class="ml-4">
+                                        <h4 class="text-lg font-semibold text-gray-700">The Course with The most Students</h4>
+                                        <p class="text-2xl font-bold text-gray-900"><?= $total_enrollement ?></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 4 -->
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <div class="flex items-center">
+
+                                    <div class="ml-4">
+                                        <h4 class="text-lg font-semibold text-gray-700">Top Three Teacher</h4>
+                                        <p class="text-2xl font-bold text-gray-900"><?= $total_course ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+            </div>
+
+
+            </section>
+
+
+            <!--------------------------------------------- STUDENT MANAGEMENT ---------------------------------------------------------->
+
+            <section id="user" class="flex flex-col items-center bg-gray-50 min-h-screen p-6 hidden">
+                <!-- Header -->
+                <div class="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6 space-y-6">
+                    <div class="flex justify-between items-center">
+                        <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
+                            STUDENT MANAGEMENT
+                        </h1>
+
+                    </div>
+
+                    <!-- Table -->
+                    <div class="font-[sans-serif] overflow-x-auto">
+                        <table class="min-w-full bg-white">
+                            <thead class="whitespace-nowrap">
+                                <tr>
+                                    <th class="p-4 text-left text-sm font-semibold text-black">
+                                        user id
+                                    </th>
+                                    <th class="p-4 text-left text-sm font-semibold text-black">
+                                        Name
+                                    </th>
+
+                                    <th class="p-4 text-left text-sm font-semibold text-black">
+                                        Blocked
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 fill-gray-400 inline cursor-pointer ml-2"
+                                            viewBox="0 0 401.998 401.998">
+                                            <path
+                                                d="M73.092 164.452h255.813c4.949 0 9.233-1.807 12.848-5.424 3.613-3.616 5.427-7.898 5.427-12.847s-1.813-9.229-5.427-12.85L213.846 5.424C210.232 1.812 205.951 0 200.999 0s-9.233 1.812-12.85 5.424L60.242 133.331c-3.617 3.617-5.424 7.901-5.424 12.85 0 4.948 1.807 9.231 5.424 12.847 3.621 3.617 7.902 5.424 12.85 5.424zm255.813 73.097H73.092c-4.952 0-9.233 1.808-12.85 5.421-3.617 3.617-5.424 7.898-5.424 12.847s1.807 9.233 5.424 12.848L188.149 396.57c3.621 3.617 7.902 5.428 12.85 5.428s9.233-1.811 12.847-5.428l127.907-127.906c3.613-3.614 5.427-7.898 5.427-12.848 0-4.948-1.813-9.229-5.427-12.847-3.614-3.616-7.899-5.42-12.848-5.42z"
+                                                data-original="#000000" />
+                                        </svg>
+                                    </th>
+                                    <!-- <th class="p-4 text-left text-sm font-semibold text-black">
                       Action
                     </th> -->
-                                        </tr>
-                                    </thead>
+                                </tr>
+                            </thead>
 
-                                    <tbody class="whitespace-nowrap">
+                            <tbody class="whitespace-nowrap">
 
 
-                                        <?php foreach ($all_student as $student) { ?>
+                                <?php foreach ($all_student as $student) { ?>
 
-                                            <tr class="odd:bg-gray-100">
-                                                <td class="p-4 text-md font-bold">
-                                                    <?= $student["id_user"]; ?>
-                                                </td>
-                                                <td class="p-4 text-sm">
-                                                    <div class="flex items-center cursor-pointer w-max">
-                                                        <img src='https://readymadeui.com/profile_4.webp' class="w-9 h-9 rounded-full shrink-0" />
-                                                        <div class="ml-4">
-                                                            <p class="text-sm text-black"> <?= $student["username"]; ?> </p>
-                                                            <p class="text-xs text-gray-500 mt-0.5"><?= $student["email"]; ?></p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <!-- <td class="p-4 text-sm text-black">
+                                    <tr class="odd:bg-gray-100">
+                                        <td class="p-4 text-md font-bold">
+                                            <?= $student["id_user"]; ?>
+                                        </td>
+                                        <td class="p-4 text-sm">
+                                            <div class="flex items-center cursor-pointer w-max">
+                                                <img src='https://readymadeui.com/profile_4.webp' class="w-9 h-9 rounded-full shrink-0" />
+                                                <div class="ml-4">
+                                                    <p class="text-sm text-black"> <?= $student["username"]; ?> </p>
+                                                    <p class="text-xs text-gray-500 mt-0.5"><?= $student["email"]; ?></p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <!-- <td class="p-4 text-sm text-black">
 
                         <form action="admin.php" method="POST">
                           <input type="hidden" name="user_id" value="<?= $User["user_id"]; ?>">
@@ -232,393 +349,393 @@ if (isset($_POST['update_category'])) {
                         </form>
 
                       </td> -->
-                                                <td class="p-4">
+                                        <td class="p-4">
 
-                                                    <form action="admin.php" method="POST">
-                                                        <input type="hidden" name="user_id" value="<?= $student["id_user"]; ?>">
-                                                        <input type="hidden" name="status" value="off">
-                                                        <label class="relative cursor-pointer">
-                                                            <input type="checkbox" onchange="this.form.submit()" name="status" value="<?= $student["status"] === "blocked" ? "on" : "off" ?>" class="sr-only peer" <?= $student["status"] === "blocked" ? "checked" : "" ?> />
-                                                            <div
-                                                                class="w-11 h-6 flex items-center bg-gray-300 rounded-full peer peer-checked:after:translate-x-full after:absolute after:left-[2px] peer-checked:after:border-white after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500">
-                                                            </div>
-                                                        </label>
-                                                    </form>
-
-                                                </td>
-                                                <td class="p-4">
-
-                                                    <form action="admin.php" method="POST">
-                                                        <input type="hidden" name="user_id" value="<?= $student["id_user"]; ?>">
-                                                        <button type="submit" name="delete"
-                                                            class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-red-600 hover:bg-red-700 active:bg-red-600">
-                                                            <span class="border-r border-white pr-3">Delete</span>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 320.591 320.591">
-                                                                <path
-                                                                    d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
-                                                                    data-original="#000000" />
-                                                                <path
-                                                                    d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
-                                                                    data-original="#000000" />
-                                                            </svg>
-                                                        </button>
-                                                    </form>
-
-                                                </td>
-                                            </tr>
-
-
-                                        <?php } ?>
-
-
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </section>
-                    
-                    <!----------------------------------------------- END STUDENT MANAGEMENT ----------------------------------------------------------->
-
-
-                    <!--------------------------------------------- TEACHER MANAGEMENT ---------------------------------------------------------->
-
-                    <section id="teacher" class="flex flex-col items-center bg-gray-50 min-h-screen p-6 hidden">
-                        <!-- Header -->
-                        <div class="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6 space-y-6">
-                            <div class="flex justify-between items-center">
-                                <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
-                                    TEACHER MANAGEMENT
-                                </h1>
-
-                            </div>
-
-                            <!-- Table -->
-                            <div class="font-[sans-serif] overflow-x-auto">
-                                <table class="min-w-full bg-white">
-                                    <thead class="whitespace-nowrap">
-                                        <tr>
-                                            <th class="p-4 text-left text-sm font-semibold text-black">
-                                                Teacher id
-                                            </th>
-                                            <th class="p-4 text-left text-sm font-semibold text-black">
-                                                Name
-                                            </th>
-                                            <th class="p-4 text-left text-sm font-semibold text-black">
-                                                Validation
-                                            </th>
-
-                                            <th class="p-4 text-left text-sm font-semibold text-black">
-                                                Blocked
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 fill-gray-400 inline cursor-pointer ml-2"
-                                                    viewBox="0 0 401.998 401.998">
-                                                    <path
-                                                        d="M73.092 164.452h255.813c4.949 0 9.233-1.807 12.848-5.424 3.613-3.616 5.427-7.898 5.427-12.847s-1.813-9.229-5.427-12.85L213.846 5.424C210.232 1.812 205.951 0 200.999 0s-9.233 1.812-12.85 5.424L60.242 133.331c-3.617 3.617-5.424 7.901-5.424 12.85 0 4.948 1.807 9.231 5.424 12.847 3.621 3.617 7.902 5.424 12.85 5.424zm255.813 73.097H73.092c-4.952 0-9.233 1.808-12.85 5.421-3.617 3.617-5.424 7.898-5.424 12.847s1.807 9.233 5.424 12.848L188.149 396.57c3.621 3.617 7.902 5.428 12.85 5.428s9.233-1.811 12.847-5.428l127.907-127.906c3.613-3.614 5.427-7.898 5.427-12.848 0-4.948-1.813-9.229-5.427-12.847-3.614-3.616-7.899-5.42-12.848-5.42z"
-                                                        data-original="#000000" />
-                                                </svg>
-                                            </th>
-
-                                        </tr>
-                                    </thead>
-
-                                    <tbody class="whitespace-nowrap">
-
-
-                                        <?php foreach ($all_teacher as $teacher) { ?>
-
-                                            <tr class="odd:bg-gray-100">
-                                                <td class="p-4 text-md font-bold">
-                                                    <?= $teacher["id_user"]; ?>
-                                                </td>
-                                                <td class="p-4 text-sm">
-                                                    <div class="flex items-center cursor-pointer w-max">
-                                                        <img src='https://readymadeui.com/profile_4.webp' class="w-9 h-9 rounded-full shrink-0" />
-                                                        <div class="ml-4">
-                                                            <p class="text-sm text-black"> <?= $teacher["username"]; ?> </p>
-                                                            <p class="text-xs text-gray-500 mt-0.5"><?= $teacher["email"]; ?></p>
-                                                        </div>
+                                            <form action="admin.php" method="POST">
+                                                <input type="hidden" name="user_id" value="<?= $student["id_user"]; ?>">
+                                                <input type="hidden" name="status" value="off">
+                                                <label class="relative cursor-pointer">
+                                                    <input type="checkbox" onchange="this.form.submit()" name="status" value="<?= $student["status"] === "blocked" ? "on" : "off" ?>" class="sr-only peer" <?= $student["status"] === "blocked" ? "checked" : "" ?> />
+                                                    <div
+                                                        class="w-11 h-6 flex items-center bg-gray-300 rounded-full peer peer-checked:after:translate-x-full after:absolute after:left-[2px] peer-checked:after:border-white after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500">
                                                     </div>
-                                                </td>
+                                                </label>
+                                            </form>
 
-                                                <td class="p-4 flex items-center gap-3">
-                                                    <p>
-                                                    <div class="flex items-center gap-4">
-                                                        <?php
-                                                        if ($teacher["isvalide"]) {
+                                        </td>
+                                        <td class="p-4">
 
-                                                            echo "valide";
-                                                        ?>
-                                                            <button type="submit" class="p-2 rounded-full bg-green-600 text-white hover:bg-green-700 active:bg-green-600 focus:outline-none">
-                                                                <i class="fas fa-check-circle text-sm"></i>
-                                                            </button>
-                                                    </div>
+                                            <form action="admin.php" method="POST">
+                                                <input type="hidden" name="user_id" value="<?= $student["id_user"]; ?>">
+                                                <button type="submit" name="delete"
+                                                    class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-red-600 hover:bg-red-700 active:bg-red-600">
+                                                    <span class="border-r border-white pr-3">Delete</span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 320.591 320.591">
+                                                        <path
+                                                            d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                                                            data-original="#000000" />
+                                                        <path
+                                                            d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                                                            data-original="#000000" />
+                                                    </svg>
+                                                </button>
+                                            </form>
+
+                                        </td>
+                                    </tr>
+
+
+                                <?php } ?>
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!----------------------------------------------- END STUDENT MANAGEMENT ----------------------------------------------------------->
+
+
+            <!--------------------------------------------- TEACHER MANAGEMENT ---------------------------------------------------------->
+
+            <section id="teacher" class="flex flex-col items-center bg-gray-50 min-h-screen p-6 hidden">
+                <!-- Header -->
+                <div class="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6 space-y-6">
+                    <div class="flex justify-between items-center">
+                        <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
+                            TEACHER MANAGEMENT
+                        </h1>
+
+                    </div>
+
+                    <!-- Table -->
+                    <div class="font-[sans-serif] overflow-x-auto">
+                        <table class="min-w-full bg-white">
+                            <thead class="whitespace-nowrap">
+                                <tr>
+                                    <th class="p-4 text-left text-sm font-semibold text-black">
+                                        Teacher id
+                                    </th>
+                                    <th class="p-4 text-left text-sm font-semibold text-black">
+                                        Name
+                                    </th>
+                                    <th class="p-4 text-left text-sm font-semibold text-black">
+                                        Validation
+                                    </th>
+
+                                    <th class="p-4 text-left text-sm font-semibold text-black">
+                                        Blocked
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 fill-gray-400 inline cursor-pointer ml-2"
+                                            viewBox="0 0 401.998 401.998">
+                                            <path
+                                                d="M73.092 164.452h255.813c4.949 0 9.233-1.807 12.848-5.424 3.613-3.616 5.427-7.898 5.427-12.847s-1.813-9.229-5.427-12.85L213.846 5.424C210.232 1.812 205.951 0 200.999 0s-9.233 1.812-12.85 5.424L60.242 133.331c-3.617 3.617-5.424 7.901-5.424 12.85 0 4.948 1.807 9.231 5.424 12.847 3.621 3.617 7.902 5.424 12.85 5.424zm255.813 73.097H73.092c-4.952 0-9.233 1.808-12.85 5.421-3.617 3.617-5.424 7.898-5.424 12.847s1.807 9.233 5.424 12.848L188.149 396.57c3.621 3.617 7.902 5.428 12.85 5.428s9.233-1.811 12.847-5.428l127.907-127.906c3.613-3.614 5.427-7.898 5.427-12.848 0-4.948-1.813-9.229-5.427-12.847-3.614-3.616-7.899-5.42-12.848-5.42z"
+                                                data-original="#000000" />
+                                        </svg>
+                                    </th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody class="whitespace-nowrap">
+
+
+                                <?php foreach ($all_teacher as $teacher) { ?>
+
+                                    <tr class="odd:bg-gray-100">
+                                        <td class="p-4 text-md font-bold">
+                                            <?= $teacher["id_user"]; ?>
+                                        </td>
+                                        <td class="p-4 text-sm">
+                                            <div class="flex items-center cursor-pointer w-max">
+                                                <img src='https://readymadeui.com/profile_4.webp' class="w-9 h-9 rounded-full shrink-0" />
+                                                <div class="ml-4">
+                                                    <p class="text-sm text-black"> <?= $teacher["username"]; ?> </p>
+                                                    <p class="text-xs text-gray-500 mt-0.5"><?= $teacher["email"]; ?></p>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td class="p-4 flex items-center gap-3">
+                                            <p>
+                                            <div class="flex items-center gap-4">
                                                 <?php
+                                                if ($teacher["isvalide"]) {
 
-                                                        } else {
-                                                            echo "invalide";
+                                                    echo "valide";
                                                 ?>
-                                                    <form action="" method="post">
-                                                        <button name="valideBtn" value="<?= $teacher["id_user"]; ?>" type="submit" class="p-2 rounded-full bg-red-600 text-white hover:bg-red-700 active:bg-green-600 focus:outline-none">
-                                                            <i class="fas fa-check-circle text-sm"></i>
-                                                        </button>
-                                                    </form>
-                                                <?php
-                                                        }
-                                                ?>
-                                                </p>
+                                                    <button type="submit" class="p-2 rounded-full bg-green-600 text-white hover:bg-green-700 active:bg-green-600 focus:outline-none">
+                                                        <i class="fas fa-check-circle text-sm"></i>
+                                                    </button>
+                                            </div>
+                                        <?php
 
-                                                </td>
-                                                <td class="p-4">
+                                                } else {
+                                                    echo "invalide";
+                                        ?>
+                                            <form action="" method="post">
+                                                <button name="valideBtn" value="<?= $teacher["id_user"]; ?>" type="submit" class="p-2 rounded-full bg-red-600 text-white hover:bg-red-700 active:bg-green-600 focus:outline-none">
+                                                    <i class="fas fa-check-circle text-sm"></i>
+                                                </button>
+                                            </form>
+                                        <?php
+                                                }
+                                        ?>
+                                        </p>
 
-                                                    <form action="admin.php" method="POST">
-                                                        <input type="hidden" name="user_id" value="<?= $teacher["id_user"]; ?>">
-                                                        <input type="hidden" name="status" value="off">
-                                                        <label class="relative cursor-pointer">
-                                                            <input type="checkbox" onchange="this.form.submit()" name="status" value="<?= $teacher["status"] === "blocked" ? "on" : "off" ?>" class="sr-only peer" <?= $teacher["status"] === "blocked" ? "checked" : "" ?> />
-                                                            <div
-                                                                class="w-11 h-6 flex items-center bg-gray-300 rounded-full peer peer-checked:after:translate-x-full after:absolute after:left-[2px] peer-checked:after:border-white after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500">
-                                                            </div>
-                                                        </label>
-                                                    </form>
+                                        </td>
+                                        <td class="p-4">
 
-                                                </td>
-                                                <!-- --------- -->
-
-                                                <td class="p-4">
-
-                                                    <form action="admin.php" method="POST">
-                                                        <input type="hidden" name="user_id" value="<?= $teacher["id_user"]; ?>">
-                                                        <button type="submit" name="delete"
-                                                            class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-red-600 hover:bg-red-700 active:bg-red-600">
-                                                            <span class="border-r border-white pr-3">Delete</span>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 320.591 320.591">
-                                                                <path
-                                                                    d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
-                                                                    data-original="#000000" />
-                                                                <path
-                                                                    d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
-                                                                    data-original="#000000" />
-                                                            </svg>
-                                                        </button>
-                                                    </form>
-
-                                                </td>
-                                            </tr>
-
-
-                                        <?php } ?>
-
-
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </section>
-                    <!----------------------------------------------- END TEACHER MANAGEMENT ----------------------------------------------------------->
-                    <!----------------------------------------------- TAGS MANAGEMENT ----------------------------------------------------------->
-
-                    <section id="tag" class="flex flex-col items-center bg-gray-50 min-h-screen p-6 hidden">
-                        <!-- Header -->
-                        <div class="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6 space-y-6">
-                            <div class="flex justify-between items-center">
-                                <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
-                                    TAGS MANAGEMENT
-                                </h1>
-                                <form action="" method="post">
-                                    <button id="ajoutBtn" type="button" name="add_tag"
-                                        class="px-5 py-2.5 rounded-full text-white text-sm tracking-wider font-medium border border-current outline-none bg-red-700 hover:bg-red-800 active:bg-red-700">
-                                        ADD TAG</button>
-                                </form>
-                            </div>
-
-                            <div class="font-[sans-serif] overflow-x-auto">
-                                <table class="min-w-full bg-white">
-                                    <thead class="whitespace-nowrap">
-                                        <tr>
-                                            <th class="p-4 text-left text-sm font-semibold text-black">
-                                                Tag id
-                                            </th>
-                                            <th class="p-4 text-left text-sm font-semibold text-black">
-                                                Tag Name
-                                            </th>
-
-
-
-
-                                        </tr>
-                                    </thead>
-
-                                    <tbody class="whitespace-nowrap">
-
-
-                                        <?php foreach ($all_tag as $tag) { ?>
-
-                                            <tr class="odd:bg-gray-100">
-                                                <td class="p-4 text-md font-bold">
-                                                    <?= $tag["id_tag"]; ?>
-                                                </td>
-                                                <td class="p-4 text-sm">
-                                                    <div class="flex items-center cursor-pointer w-max">
-                                                        <div class="ml-4">
-                                                            <p class="text-sm text-black"> <?= $tag["tag_name"]; ?> </p>
-                                                        </div>
+                                            <form action="admin.php" method="POST">
+                                                <input type="hidden" name="user_id" value="<?= $teacher["id_user"]; ?>">
+                                                <input type="hidden" name="status" value="off">
+                                                <label class="relative cursor-pointer">
+                                                    <input type="checkbox" onchange="this.form.submit()" name="status" value="<?= $teacher["status"] === "blocked" ? "on" : "off" ?>" class="sr-only peer" <?= $teacher["status"] === "blocked" ? "checked" : "" ?> />
+                                                    <div
+                                                        class="w-11 h-6 flex items-center bg-gray-300 rounded-full peer peer-checked:after:translate-x-full after:absolute after:left-[2px] peer-checked:after:border-white after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500">
                                                     </div>
-                                                </td>
+                                                </label>
+                                            </form>
+
+                                        </td>
+                                        <!-- --------- -->
+
+                                        <td class="p-4">
+
+                                            <form action="admin.php" method="POST">
+                                                <input type="hidden" name="user_id" value="<?= $teacher["id_user"]; ?>">
+                                                <button type="submit" name="delete"
+                                                    class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-red-600 hover:bg-red-700 active:bg-red-600">
+                                                    <span class="border-r border-white pr-3">Delete</span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 320.591 320.591">
+                                                        <path
+                                                            d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                                                            data-original="#000000" />
+                                                        <path
+                                                            d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                                                            data-original="#000000" />
+                                                    </svg>
+                                                </button>
+                                            </form>
+
+                                        </td>
+                                    </tr>
+
+
+                                <?php } ?>
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <!----------------------------------------------- END TEACHER MANAGEMENT ----------------------------------------------------------->
+            <!----------------------------------------------- TAGS MANAGEMENT ----------------------------------------------------------->
+
+            <section id="tag" class="flex flex-col items-center bg-gray-50 min-h-screen p-6 hidden">
+                <!-- Header -->
+                <div class="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6 space-y-6">
+                    <div class="flex justify-between items-center">
+                        <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
+                            TAGS MANAGEMENT
+                        </h1>
+                        <form action="" method="post">
+                            <button id="ajoutBtn" type="button" name="add_tag"
+                                class="px-5 py-2.5 rounded-full text-white text-sm tracking-wider font-medium border border-current outline-none bg-red-700 hover:bg-red-800 active:bg-red-700">
+                                ADD TAG</button>
+                        </form>
+                    </div>
+
+                    <div class="font-[sans-serif] overflow-x-auto">
+                        <table class="min-w-full bg-white">
+                            <thead class="whitespace-nowrap">
+                                <tr>
+                                    <th class="p-4 text-left text-sm font-semibold text-black">
+                                        Tag id
+                                    </th>
+                                    <th class="p-4 text-left text-sm font-semibold text-black">
+                                        Tag Name
+                                    </th>
 
 
 
 
-                                                <td class="p-4">
+                                </tr>
+                            </thead>
 
-                                                    <form action="" method="POST">
-                                                        <input type="hidden" name="id_tag_edit" value="<?= $tag["id_tag"]; ?>">
-                                                        <button type="submit" name="Tag_edit"
-                                                            class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-green-600 hover:bg-green-700 active:bg-red-600">
-                                                            <span class="border-r border-white pr-3">Edit</span>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 24 24">
-                                                                <path d="M16.707 4.293l-3.997 3.998 4.242 4.243 3.997-3.998a2 2 0 0 0 0-2.828l-2.828-2.828a2 2 0 0 0-2.828 0zM12.414 8.707L11 7.293 4 14.293V17h2.707l7.414-7.414z" />
-                                                            </svg>
-
-                                                        </button>
-                                                    </form>
-
-                                                </td>
-                                                <td class="p-4">
-
-                                                    <form action="admin.php" method="POST">
-                                                        <input type="hidden" name="id_tag" value="<?= $tag["id_tag"]; ?>">
-                                                        <button type="submit" name="deleteTag"
-                                                            class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-red-600 hover:bg-red-700 active:bg-red-600">
-                                                            <span class="border-r border-white pr-3">Delete</span>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 320.591 320.591">
-                                                                <path
-                                                                    d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
-                                                                    data-original="#000000" />
-                                                                <path
-                                                                    d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
-                                                                    data-original="#000000" />
-                                                            </svg>
-                                                        </button>
-                                                    </form>
-
-                                                </td>
-                                            </tr>
+                            <tbody class="whitespace-nowrap">
 
 
-                                        <?php } ?>
+                                <?php foreach ($all_tag as $tag) { ?>
 
-
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </section>
-
-
-                    <!----------------------------------------------- CATEGORIES MANAGEMENT ----------------------------------------------------------->
-
-                    <section id="category" class="flex flex-col items-center bg-gray-50 min-h-screen p-6 hidden">
-                        <!-- Header -->
-                        <div class="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6 space-y-6">
-                            <div class="flex justify-between items-center">
-                                <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
-                                    CATEGORIES MANAGEMENT
-                                </h1>
-                                <form action="" method="post">
-                                    <button id="ajoutBtn_category" type="button" name="add_category"
-                                        class="px-5 py-2.5 rounded-full text-white text-sm tracking-wider font-medium border border-current outline-none bg-red-700 hover:bg-red-800 active:bg-red-700">
-                                        ADD CATEGORY</button>
-                                </form>
-                            </div>
-
-                            <div class="font-[sans-serif] overflow-x-auto">
-                                <table class="min-w-full bg-white">
-                                    <thead class="whitespace-nowrap">
-                                        <tr>
-                                            <th class="p-4 text-left text-sm font-semibold text-black">
-                                                Category id
-                                            </th>
-                                            <th class="p-4 text-left text-sm font-semibold text-black">
-                                                Category Name
-                                            </th>
+                                    <tr class="odd:bg-gray-100">
+                                        <td class="p-4 text-md font-bold">
+                                            <?= $tag["id_tag"]; ?>
+                                        </td>
+                                        <td class="p-4 text-sm">
+                                            <div class="flex items-center cursor-pointer w-max">
+                                                <div class="ml-4">
+                                                    <p class="text-sm text-black"> <?= $tag["tag_name"]; ?> </p>
+                                                </div>
+                                            </div>
+                                        </td>
 
 
 
 
-                                        </tr>
-                                    </thead>
+                                        <td class="p-4">
 
-                                    <tbody class="whitespace-nowrap">
+                                            <form action="" method="POST">
+                                                <input type="hidden" name="id_tag_edit" value="<?= $tag["id_tag"]; ?>">
+                                                <button type="submit" name="Tag_edit"
+                                                    class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-green-600 hover:bg-green-700 active:bg-red-600">
+                                                    <span class="border-r border-white pr-3">Edit</span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 24 24">
+                                                        <path d="M16.707 4.293l-3.997 3.998 4.242 4.243 3.997-3.998a2 2 0 0 0 0-2.828l-2.828-2.828a2 2 0 0 0-2.828 0zM12.414 8.707L11 7.293 4 14.293V17h2.707l7.414-7.414z" />
+                                                    </svg>
 
+                                                </button>
+                                            </form>
 
-                                        <?php foreach ($all_category as $category) { ?>
+                                        </td>
+                                        <td class="p-4">
 
-                                            <tr class="odd:bg-gray-100">
-                                                <td class="p-4 text-md font-bold">
-                                                    <?= $category["id_category"]; ?>
-                                                </td>
-                                                <td class="p-4 text-sm">
-                                                    <div class="flex items-center cursor-pointer w-max">
-                                                        <div class="ml-4">
-                                                            <p class="text-sm text-black"> <?= $category["category_name"]; ?> </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
+                                            <form action="admin.php" method="POST">
+                                                <input type="hidden" name="id_tag" value="<?= $tag["id_tag"]; ?>">
+                                                <button type="submit" name="deleteTag"
+                                                    class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-red-600 hover:bg-red-700 active:bg-red-600">
+                                                    <span class="border-r border-white pr-3">Delete</span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 320.591 320.591">
+                                                        <path
+                                                            d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                                                            data-original="#000000" />
+                                                        <path
+                                                            d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                                                            data-original="#000000" />
+                                                    </svg>
+                                                </button>
+                                            </form>
 
-
-
-
-                                                <td class="p-4">
-
-                                                    <form action="" method="POST">
-                                                        <input type="hidden" name="id_category_edit" value="<?= $category["id_category"]; ?>">
-                                                        <button type="submit" name="category_edit"
-                                                            class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-green-600 hover:bg-green-700 active:bg-red-600">
-                                                            <span class="border-r border-white pr-3">Edit</span>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 24 24">
-                                                                <path d="M16.707 4.293l-3.997 3.998 4.242 4.243 3.997-3.998a2 2 0 0 0 0-2.828l-2.828-2.828a2 2 0 0 0-2.828 0zM12.414 8.707L11 7.293 4 14.293V17h2.707l7.414-7.414z" />
-                                                            </svg>
-
-                                                        </button>
-                                                    </form>
-
-                                                </td>
-                                                <td class="p-4">
-
-                                                    <form action="admin.php" method="POST">
-                                                        <input type="hidden" name="id_category" value="<?= $category["id_category"]; ?>">
-                                                        <button type="submit" name="deleteCategory"
-                                                            class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-red-600 hover:bg-red-700 active:bg-red-600">
-                                                            <span class="border-r border-white pr-3">Delete</span>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 320.591 320.591">
-                                                                <path
-                                                                    d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
-                                                                    data-original="#000000" />
-                                                                <path
-                                                                    d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
-                                                                    data-original="#000000" />
-                                                            </svg>
-                                                        </button>
-                                                    </form>
-
-                                                </td>
-                                            </tr>
+                                        </td>
+                                    </tr>
 
 
-                                        <?php } ?>
+                                <?php } ?>
 
 
 
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </section>
-                </section>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
 
-            </div>
+
+            <!----------------------------------------------- CATEGORIES MANAGEMENT ----------------------------------------------------------->
+
+            <section id="category" class="flex flex-col items-center bg-gray-50 min-h-screen p-6 hidden">
+                <!-- Header -->
+                <div class="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6 space-y-6">
+                    <div class="flex justify-between items-center">
+                        <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
+                            CATEGORIES MANAGEMENT
+                        </h1>
+                        <form action="" method="post">
+                            <button id="ajoutBtn_category" type="button" name="add_category"
+                                class="px-5 py-2.5 rounded-full text-white text-sm tracking-wider font-medium border border-current outline-none bg-red-700 hover:bg-red-800 active:bg-red-700">
+                                ADD CATEGORY</button>
+                        </form>
+                    </div>
+
+                    <div class="font-[sans-serif] overflow-x-auto">
+                        <table class="min-w-full bg-white">
+                            <thead class="whitespace-nowrap">
+                                <tr>
+                                    <th class="p-4 text-left text-sm font-semibold text-black">
+                                        Category id
+                                    </th>
+                                    <th class="p-4 text-left text-sm font-semibold text-black">
+                                        Category Name
+                                    </th>
+
+
+
+
+                                </tr>
+                            </thead>
+
+                            <tbody class="whitespace-nowrap">
+
+
+                                <?php foreach ($all_category as $category) { ?>
+
+                                    <tr class="odd:bg-gray-100">
+                                        <td class="p-4 text-md font-bold">
+                                            <?= $category["id_category"]; ?>
+                                        </td>
+                                        <td class="p-4 text-sm">
+                                            <div class="flex items-center cursor-pointer w-max">
+                                                <div class="ml-4">
+                                                    <p class="text-sm text-black"> <?= $category["category_name"]; ?> </p>
+                                                </div>
+                                            </div>
+                                        </td>
+
+
+
+
+                                        <td class="p-4">
+
+                                            <form action="" method="POST">
+                                                <input type="hidden" name="id_category_edit" value="<?= $category["id_category"]; ?>">
+                                                <button type="submit" name="category_edit"
+                                                    class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-green-600 hover:bg-green-700 active:bg-red-600">
+                                                    <span class="border-r border-white pr-3">Edit</span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 24 24">
+                                                        <path d="M16.707 4.293l-3.997 3.998 4.242 4.243 3.997-3.998a2 2 0 0 0 0-2.828l-2.828-2.828a2 2 0 0 0-2.828 0zM12.414 8.707L11 7.293 4 14.293V17h2.707l7.414-7.414z" />
+                                                    </svg>
+
+                                                </button>
+                                            </form>
+
+                                        </td>
+                                        <td class="p-4">
+
+                                            <form action="admin.php" method="POST">
+                                                <input type="hidden" name="id_category" value="<?= $category["id_category"]; ?>">
+                                                <button type="submit" name="deleteCategory"
+                                                    class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-red-600 hover:bg-red-700 active:bg-red-600">
+                                                    <span class="border-r border-white pr-3">Delete</span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 320.591 320.591">
+                                                        <path
+                                                            d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                                                            data-original="#000000" />
+                                                        <path
+                                                            d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                                                            data-original="#000000" />
+                                                    </svg>
+                                                </button>
+                                            </form>
+
+                                        </td>
+                                    </tr>
+
+
+                                <?php } ?>
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            </section>
+
+        </div>
         </div>
 
         <!----------------------------------------------- ADD TAG ----------------------------------------------------------->
@@ -727,7 +844,7 @@ if (isset($_POST['update_category'])) {
 </body>
 <script>
     let dashboardBtn = document.getElementById("dashboardBtn");
-    let dashboard = document.getElementById("dashboard");
+    let dashboard = document.getElementById("admin_home");
     let user = document.getElementById("user");
     // let teacher = document.getElementById("teacher");
     let userBtn = document.getElementById("userBtn");
@@ -741,19 +858,21 @@ if (isset($_POST['update_category'])) {
 
 
 
-    // dashboardBtn.addEventListener("click", () => {
+    dashboardBtn.addEventListener("click", () => {
 
-    //     dashboard.style.display = "flex";
-    //     user.style.display = "none";
-    //     teacher.style.display = "none";
+        user.style.display = "none";
+        dashboard.style.display = "flex";
+        teacher.style.display = "none";
+        tag.style.display = "none";
+        category.style.display = "none";
 
-    // });
+    });
 
 
     userBtn.addEventListener("click", () => {
 
         user.style.display = "flex";
-        // dashboard.style.display = "none";
+        dashboard.style.display = "none";
         teacher.style.display = "none";
         tag.style.display = "none";
         category.style.display = "none";
@@ -764,7 +883,7 @@ if (isset($_POST['update_category'])) {
     GameBtn.addEventListener("click", () => {
 
         teacher.style.display = "flex";
-        // dashboard.style.display = "none";
+        dashboard.style.display = "none";
         user.style.display = "none";
         tag.style.display = "none";
         category.style.display = "none";
@@ -774,7 +893,7 @@ if (isset($_POST['update_category'])) {
 
     tagBtn.addEventListener("click", () => {
         tag.style.display = "flex";
-        // dashboard.style.display = "none";
+        dashboard.style.display = "none";
         user.style.display = "none";
         teacher.style.display = "none";
         category.style.display = "none";
@@ -782,7 +901,7 @@ if (isset($_POST['update_category'])) {
     });
     categoryBtn.addEventListener("click", () => {
         category.style.display = "flex";
-        // dashboard.style.display = "none";
+        dashboard.style.display = "none";
         user.style.display = "none";
         teacher.style.display = "none";
         tag.style.display = "none";

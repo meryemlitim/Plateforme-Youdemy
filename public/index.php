@@ -11,8 +11,29 @@ $user_id = $_SESSION["user_id"] ?? "";
 $role = $_SESSION["role"] ?? "";
 
 $course1 = new content_video();
+$cours = new content_video();
 
 $getcourseDetail = $course1->allCourses();
+
+// -----------Récupération des paramètres
+
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = max(1, $page); // Toujours s'assurer que la page est au moins 1
+$limit = 6; // Nombre de cours par page
+$offset = ($page - 1) * $limit; // Calcul de l'offset
+
+
+
+// Récupérer les cours filtrés et paginés
+$coursList = $cours->getCoursWithPagination($search, $limit, $offset);
+
+// Compter le nombre total de cours correspondant à la recherche
+$totalCours = $cours->countCours($search);
+$totalPages = ceil($totalCours / $limit);
+
+
+
 
 ?>
 
@@ -49,8 +70,8 @@ $getcourseDetail = $course1->allCourses();
 
                 <form method="GET" action="">
                     <div class="flex shadow-lg">
-                        <input type="text" class="flex-1 border-t border-b border-gray-300 px-6 py-4 text-black" placeholder="Search courses..." value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
-                        <button type="submit" class="bg-blue-600 text-white px-6 py-4 rounded-r-md text-lg font-semibold hover:bg-blue-700">Search</button>
+                        <input name="search" type="text" class="flex-1 border-t border-b border-gray-300 px-6 py-4 text-black" placeholder="Search courses..." value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+                        <button id="scroll" type="submit" class="bg-blue-600 text-white px-6 py-4 rounded-r-md text-lg font-semibold hover:bg-blue-700">Search</button>
                     </div>
 
                 </form>
@@ -72,7 +93,7 @@ $getcourseDetail = $course1->allCourses();
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <?php foreach ($getcourseDetail as $Detail) { ?>
+                <?php foreach ($coursList as $Detail) { ?>
                     <!-- <form method="post"> -->
                     <div class=" course_detail relative pb-4 w-3/4 mx-auto ">
                         <a class="relative block overflow-hidden mb-2"
@@ -99,26 +120,24 @@ $getcourseDetail = $course1->allCourses();
 
             </div>
             <!-- Pagination -->
-            <div class="flex justify-center mt-6">
-                <nav>
-                    <ul class="flex items-center space-x-2">
-                        <li>
-                            <a href="#" class="px-4 py-2 bg-gray-300 text-black rounded-md">Prev</a>
-                        </li>
-                        <li>
-                            <a href="#" class="px-4 py-2 bg-gray-300 text-black rounded-md">1</a>
-                        </li>
-                        <li>
-                            <a href="#" class="px-4 py-2 bg-gray-300 text-black rounded-md">2</a>
-                        </li>
-                        <li>
-                            <a href="#" class="px-4 py-2 bg-gray-300 text-black rounded-md">3</a>
-                        </li>
-                        <li>
-                            <a href="#" class="px-4 py-2 bg-gray-300 text-black rounded-md">Next</a>
-                        </li>
-                    </ul>
-                </nav>
+            <!-- Pagination -->
+            <div class="flex justify-center mt-6 space-x-2">
+                <?php if ($page > 1): ?>
+                    <a href="?search=<?= urlencode($search); ?>&page=<?= $page - 1; ?>"
+                        class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">Précédent</a>
+                <?php endif; ?>
+
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <a href="?search=<?= urlencode($search); ?>&page=<?= $i; ?>"
+                        class="px-4 py-2 <?= $i === $page ? 'bg-blue-500 text-white' : 'bg-gray-300'; ?> rounded-lg hover:bg-gray-400">
+                        <?= $i; ?>
+                    </a>
+                <?php endfor; ?>
+
+                <?php if ($page < $totalPages): ?>
+                    <a href="?search=<?= urlencode($search); ?>&page=<?= $page + 1; ?>"
+                        class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">Suivant</a>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -143,7 +162,22 @@ $getcourseDetail = $course1->allCourses();
                 form.submit();
             });
         });
+
+        document.getElementById('scroll').addEventListener('click', () => {
+
+            const form = this.closest("form");
+            if(form.submit()){
+                window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            }
+            
+
+        });
     </script>
 </body>
+
+
 
 </html>

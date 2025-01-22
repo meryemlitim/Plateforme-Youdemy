@@ -102,14 +102,24 @@ class users extends db
         $stmt = $this->connexion->prepare($query);
         $stmt->bindParam(":id", $user_id);
         $stmt->execute();
-
         return $stmt->fetch();
     }
 
-    
+   public function studentTotalNumber(){
+    $sql="SELECT COUNT(*) as total FROM users WHERE role = 'student' ";
+    $stmt = $this->connexion->prepare($sql);
+    $stmt->execute();
+    $rst=$stmt->fetch();
+    return $rst['total'];
 
+   }
 
-
-    
+   public function teacherTotalNumber(){
+    $sql="SELECT COUNT(*) AS total FROM users WHERE role='teacher'";
+    $stmt=$this->connexion->prepare($sql);
+    $stmt->execute();
+    $rst=$stmt->fetch();
+    return $rst['total'];
+   }
     
 }

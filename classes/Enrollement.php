@@ -52,6 +52,15 @@ function get_my_enrolled_course($id_user){
 }
 
 
+function totalEnrollement(){
+    $sql="SELECT COUNT(*) AS total FROM enrollment";
+    $stmt=$this->connexion->prepare($sql);
+    $stmt->execute();
+    $rst=$stmt->fetch();
+    return $rst['total'];
+}
+
+
 
 
 
