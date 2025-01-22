@@ -3,6 +3,7 @@ require_once "../config/database.php";
 require_once "../classes/User.php";
 require_once "../classes/Teacher.php";
 require_once "../classes/Category.php";
+require_once "../classes/Tag.php";
 require_once "../classes/Course.php";
 require_once "../classes/Content_video.php";
 require_once "../classes/Countent_document.php";
@@ -11,8 +12,10 @@ require_once "../classes/Countent_document.php";
 $user = new users();
 $teacher = new teachers();
 $category = new categries();
+$tags = new tags();
 
 $all_category = $category->dispaly_category();
+$all_tags = $tags->display_tag();
 
 
 $user_id = $_SESSION["user_id"] ?? "";
@@ -34,6 +37,13 @@ if (isset($_POST['add_courses_video'])) {
   $category_name = $_POST['course_category'];
 
   $course1->addCourse($title, $description, $category_name, $create_by, $type, $video_url);
+  $id_course=$course1->getId_course();
+  if(!empty($_POST['tags'])){
+    foreach($_POST['tags'] as $id_tag){
+     $tags->insertTagCourse($id_course,$id_tag);
+
+    }
+  }
   header("location:teacher.php");
 }
 if (isset($_POST['add_courses_document'])) {
@@ -43,26 +53,30 @@ if (isset($_POST['add_courses_document'])) {
   $document_text = $_POST['course_content_document'];
   $create_by = $user_id;
   $category_name = $_POST['course_category'];
-
+ 
   $course->addCourse($title, $description, $category_name, $create_by, $type, $document_text);
-  header("location:teacher.php");
+  $id_course=$course->getId_course();
+  if(!empty($_POST['tags'])){
+    foreach($_POST['tags'] as $id_tag){
+     $tags->insertTagCourse($id_course,$id_tag);
 
+    }
+  }
+  header("location:teacher.php");
 }
 // ------------------delete--------------
-if(isset($_POST['deleteCourse'])){
-  $id_course=$_POST['id_course'];
+if (isset($_POST['deleteCourse'])) {
+  $id_course = $_POST['id_course'];
   $course1->delete_course($id_course);
-
 }
 
 // -----------edit video-----------
 
 if (isset($_POST['course_video_edit'])) {
   $id_course = $_POST['id_course'];
-  $getcourseDetail=$course1->getcourseDetail($id_course);
+  $getcourseDetail = $course1->getcourseDetail($id_course);
 
   include "video_edit.php";
-  
 }
 
 if (isset($_POST['edit_courses_video'])) {
@@ -71,20 +85,16 @@ if (isset($_POST['edit_courses_video'])) {
   $description = $_POST['course_description'];
   $video_url = $_POST['course_content_video'];
   $category_name = $_POST['course_category'];
-  $course1->editCourse($id_course,$title, $description, $category_name, $video_url);
+  $course1->editCourse($id_course, $title, $description, $category_name, $video_url);
   header("location:teacher.php");
-
-
-
 }
 // -----------edit document-----------
 
 if (isset($_POST['course_document_edit'])) {
   $id_course = $_POST['id_course'];
-  $getcourseDetail=$course1->getcourseDetail($id_course);
+  $getcourseDetail = $course1->getcourseDetail($id_course);
 
   include "document_edit.php";
-  
 }
 
 if (isset($_POST['edit_courses_document'])) {
@@ -93,28 +103,26 @@ if (isset($_POST['edit_courses_document'])) {
   $description = $_POST['course_description'];
   $document_text = $_POST['course_content_document'];
   $category_name = $_POST['course_category'];
-  $course->editCourse($id_course,$title, $description, $category_name, $document_text);
+  $course->editCourse($id_course, $title, $description, $category_name, $document_text);
   header("location:teacher.php");
+} 
 
-
-
-  
-
-}
-
-if(isset($_POST['course_video_detail'])){
+if (isset($_POST['course_video_detail'])) {
   $id_course = $_POST['id_course'];
-  $getcourseDetail=$course1->getcourseDetail($id_course);
-    include "detail_video.php";
-    // header("location:detail_video.php");
+  $getcourseDetail = $course1->getcourseDetail($id_course);
+  $getcourseTag = $tags->getTagCourse($id_course);
+  include "detail_video.php";
+  // header("location:detail_video.php");
 
 
 }
-if(isset($_POST['course_document_detail'])){
+if (isset($_POST['course_document_detail'])) {
   $id_course = $_POST['id_course'];
-  $getcourseDetail=$course1->getcourseDetail($id_course);
-    include "detail_document.php";
-    // header("location:detail_video.php");
+  $getcourseDetail = $course1->getcourseDetail($id_course);
+  $getcourseTag = $tags->getTagCourse($id_course);
+
+  include "detail_document.php";
+  // header("location:detail_video.php");
 
 
 }
@@ -186,163 +194,163 @@ if(isset($_POST['course_document_detail'])){
 
                     <?php foreach ($videoCourses as $course) { ?>
 
-                    <tr class="odd:bg-gray-100">
-                      <td class="p-4 text-md font-bold">
-                        <?= $course["id_course"]; ?>
-                      </td>
-                      <td class="p-4 text-sm">
-                        <div class="flex items-center cursor-pointer w-max">
-                          <div class="ml-4">
+                      <tr class="odd:bg-gray-100">
+                        <td class="p-4 text-md font-bold">
+                          <?= $course["id_course"]; ?>
+                        </td>
+                        <td class="p-4 text-sm">
+                          <div class="flex items-center cursor-pointer w-max">
+                            <div class="ml-4">
 
-                            <p class="text-sm text-black"> <?= $course["title"]; ?> </p>
+                              <p class="text-sm text-black"> <?= $course["title"]; ?> </p>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      
-                      <td class="p-4 text-sm">
-                        <div class="flex items-center cursor-pointer w-max">
-                          <div class="ml-4">
-                            <p class="text-sm text-black"> <?= $course["type"]; ?> </p>
+                        </td>
+
+                        <td class="p-4 text-sm">
+                          <div class="flex items-center cursor-pointer w-max">
+                            <div class="ml-4">
+                              <p class="text-sm text-black"> <?= $course["type"]; ?> </p>
+                            </div>
                           </div>
-                        </div>
-                      </td>
+                        </td>
 
 
 
 
 
-                      <td class="p-4">
+                        <td class="p-4">
 
-                        <form action="" method="POST">
-                          <input type="hidden" name="id_course" value="<?= $course["id_course"]; ?>">
-                          <button type="submit" name="course_video_detail"
-                            class="px-4 py-2 flex items-center justify-center gap-2 rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-blue-600 hover:bg-blue-700 active:bg-red-600">
-                            <span class="border-r border-white pr-3">Detail</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                              <circle cx="12" cy="12" r="10"></circle>
-                              <line x1="12" y1="16" x2="12" y2="12"></line>
-                              <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                            </svg>
-
-
-                          </button>
-                        </form>
-
-                      </td>
-                      <td class="p-4">
-
-                        <form action="" method="POST">
-                          <input type="hidden" name="id_course" value="<?= $course["id_course"]; ?>">
-                          <button type="submit" name="course_video_edit"
-                            class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-green-600 hover:bg-green-700 active:bg-red-600">
-                            <span class="border-r border-white pr-3">Edit</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 24 24">
-                              <path d="M16.707 4.293l-3.997 3.998 4.242 4.243 3.997-3.998a2 2 0 0 0 0-2.828l-2.828-2.828a2 2 0 0 0-2.828 0zM12.414 8.707L11 7.293 4 14.293V17h2.707l7.414-7.414z" />
-                            </svg>
-
-                          </button>
-                        </form>
-
-                      </td>
-                      <td class="p-4">
-
-                        <form action="" method="POST">
-                          <input type="hidden" name="id_course" value="<?= $course["id_course"]; ?>">
-                          <button type="submit" name="deleteCourse"
-                            class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-red-600 hover:bg-red-700 active:bg-red-600">
-                            <span class="border-r border-white pr-3">Delete</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 320.591 320.591">
-                              <path
-                                d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
-                                data-original="#000000" />
-                              <path
-                                d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
-                                data-original="#000000" />
-                            </svg>
-                          </button>
-                        </form>
-
-                      </td>
-                    </tr>
-
-                    
+                          <form action="" method="POST">
+                            <input type="hidden" name="id_course" value="<?= $course["id_course"]; ?>">
+                            <button type="submit" name="course_video_detail"
+                              class="px-4 py-2 flex items-center justify-center gap-2 rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-blue-600 hover:bg-blue-700 active:bg-red-600">
+                              <span class="border-r border-white pr-3">Detail</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                              </svg>
 
 
-                  <?php } ?>
+                            </button>
+                          </form>
+
+                        </td>
+                        <td class="p-4">
+
+                          <form action="" method="POST">
+                            <input type="hidden" name="id_course" value="<?= $course["id_course"]; ?>">
+                            <button type="submit" name="course_video_edit"
+                              class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-green-600 hover:bg-green-700 active:bg-red-600">
+                              <span class="border-r border-white pr-3">Edit</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 24 24">
+                                <path d="M16.707 4.293l-3.997 3.998 4.242 4.243 3.997-3.998a2 2 0 0 0 0-2.828l-2.828-2.828a2 2 0 0 0-2.828 0zM12.414 8.707L11 7.293 4 14.293V17h2.707l7.414-7.414z" />
+                              </svg>
+
+                            </button>
+                          </form>
+
+                        </td>
+                        <td class="p-4">
+
+                          <form action="" method="POST">
+                            <input type="hidden" name="id_course" value="<?= $course["id_course"]; ?>">
+                            <button type="submit" name="deleteCourse"
+                              class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-red-600 hover:bg-red-700 active:bg-red-600">
+                              <span class="border-r border-white pr-3">Delete</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 320.591 320.591">
+                                <path
+                                  d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                                  data-original="#000000" />
+                                <path
+                                  d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                                  data-original="#000000" />
+                              </svg>
+                            </button>
+                          </form>
+
+                        </td>
+                      </tr>
+
+
+
+
+                    <?php } ?>
                     <?php foreach ($documentCourses as $course) { ?>
 
-                    <tr class="odd:bg-gray-100">
-                      <td class="p-4 text-md font-bold">
-                        <?= $course["id_course"]; ?>
-                      </td>
-                      <td class="p-4 text-sm">
-                        <div class="flex items-center cursor-pointer w-max">
-                          <div class="ml-4">
-                            <p class="text-sm text-black"> <?= $course["title"]; ?> </p>
+                      <tr class="odd:bg-gray-100">
+                        <td class="p-4 text-md font-bold">
+                          <?= $course["id_course"]; ?>
+                        </td>
+                        <td class="p-4 text-sm">
+                          <div class="flex items-center cursor-pointer w-max">
+                            <div class="ml-4">
+                              <p class="text-sm text-black"> <?= $course["title"]; ?> </p>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td class="p-4 text-sm">
-                        <div class="flex items-center cursor-pointer w-max">
-                          <div class="ml-4">
-                            <p class="text-sm text-black"> <?= $course["type"]; ?> </p>
+                        </td>
+                        <td class="p-4 text-sm">
+                          <div class="flex items-center cursor-pointer w-max">
+                            <div class="ml-4">
+                              <p class="text-sm text-black"> <?= $course["type"]; ?> </p>
+                            </div>
                           </div>
-                        </div>
-                      </td>
+                        </td>
 
-                      <td class="p-4">
+                        <td class="p-4">
 
-                        <form action="" method="POST">
-                          <input type="hidden" name="id_course" value="<?= $course["id_course"]; ?>">
-                          <button type="submit" name="course_document_detail"
-                            class="px-4 py-2 flex items-center justify-center gap-2 rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-blue-600 hover:bg-blue-700 active:bg-red-600">
-                            <span class="border-r border-white pr-3">Detail</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                              <circle cx="12" cy="12" r="10"></circle>
-                              <line x1="12" y1="16" x2="12" y2="12"></line>
-                              <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                            </svg>
-                          </button>
-                        </form>
+                          <form action="" method="POST">
+                            <input type="hidden" name="id_course" value="<?= $course["id_course"]; ?>">
+                            <button type="submit" name="course_document_detail"
+                              class="px-4 py-2 flex items-center justify-center gap-2 rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-blue-600 hover:bg-blue-700 active:bg-red-600">
+                              <span class="border-r border-white pr-3">Detail</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                              </svg>
+                            </button>
+                          </form>
 
-                      </td>
-                      <td class="p-4">
+                        </td>
+                        <td class="p-4">
 
-                        <form action="" method="POST">
-                          <input type="hidden" name="id_course" value="<?= $course["id_course"]; ?>">
-                          <button type="submit" name="course_document_edit"
-                            class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-green-600 hover:bg-green-700 active:bg-red-600">
-                            <span class="border-r border-white pr-3">Edit</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 24 24">
-                              <path d="M16.707 4.293l-3.997 3.998 4.242 4.243 3.997-3.998a2 2 0 0 0 0-2.828l-2.828-2.828a2 2 0 0 0-2.828 0zM12.414 8.707L11 7.293 4 14.293V17h2.707l7.414-7.414z" />
-                            </svg>
+                          <form action="" method="POST">
+                            <input type="hidden" name="id_course" value="<?= $course["id_course"]; ?>">
+                            <button type="submit" name="course_document_edit"
+                              class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-green-600 hover:bg-green-700 active:bg-red-600">
+                              <span class="border-r border-white pr-3">Edit</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 24 24">
+                                <path d="M16.707 4.293l-3.997 3.998 4.242 4.243 3.997-3.998a2 2 0 0 0 0-2.828l-2.828-2.828a2 2 0 0 0-2.828 0zM12.414 8.707L11 7.293 4 14.293V17h2.707l7.414-7.414z" />
+                              </svg>
 
-                          </button>
-                        </form>
+                            </button>
+                          </form>
 
-                      </td>
-                      <td class="p-4">
-                        <form action="" method="POST">
-                          <input type="hidden" name="id_course" value="<?= $course["id_course"]; ?>">
-                          <button type="submit" name="deleteCourse"
-                            class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-red-600 hover:bg-red-700 active:bg-red-600">
-                            <span class="border-r border-white pr-3">Delete</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 320.591 320.591">
-                              <path
-                                d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
-                                data-original="#000000" />
-                              <path
-                                d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
-                                data-original="#000000" />
-                            </svg>
-                          </button>
-                        </form>
+                        </td>
+                        <td class="p-4">
+                          <form action="" method="POST">
+                            <input type="hidden" name="id_course" value="<?= $course["id_course"]; ?>">
+                            <button type="submit" name="deleteCourse"
+                              class="px-4 py-2 flex items-center justify-center rounded text-white text-sm tracking-wider font-medium border-none outline-none bg-red-600 hover:bg-red-700 active:bg-red-600">
+                              <span class="border-r border-white pr-3">Delete</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="11px" fill="currentColor" class="ml-3 inline" viewBox="0 0 320.591 320.591">
+                                <path
+                                  d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                                  data-original="#000000" />
+                                <path
+                                  d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                                  data-original="#000000" />
+                              </svg>
+                            </button>
+                          </form>
 
-                      </td>
-                    </tr>
+                        </td>
+                      </tr>
 
 
-                  <?php } ?>
+                    <?php } ?>
 
 
 
@@ -351,7 +359,7 @@ if(isset($_POST['course_document_detail'])){
 
                   </tbody>
                 </table>
-                
+
               </div>
             </div>
           </section>
@@ -407,6 +415,24 @@ if(isset($_POST['course_document_detail'])){
                       <?php } ?>
                     </select>
                   </div>
+                  <div>
+                    <label class="text-gray-800 text-sm mb-2 block">Tags</label>
+                    <select 
+                      name="tags[]"
+                      class="form-select px-4 py-3 bg-gray-100 w-full text-gray-800 text-sm border-none focus:outline-blue-600 focus:bg-transparent rounded-lg"
+                      multiple
+                      aria-label="Select multiple tags">
+                      <?php foreach ($all_tags as $tag) { ?>
+                        <option value="<?= htmlspecialchars($tag['id_tag']); ?>" class="text-gray-900">
+                          <?= htmlspecialchars($tag['tag_name']); ?>
+                        </option>
+                      <?php } ?>
+                    </select>
+
+                  </div>
+
+
+
 
                   <!-- Buttons -->
                   <div class="flex justify-end gap-4 !mt-8">
@@ -491,6 +517,21 @@ if(isset($_POST['course_document_detail'])){
                         <option value="<?= $category["category_name"]; ?>" class="text-gray-900"><?= $category["category_name"]; ?> </option>
                       <?php } ?>
                     </select>
+                  </div>
+                  <div>
+                    <label class="text-gray-800 text-sm mb-2 block">Tags</label>
+                    <select 
+                      name="tags[]"
+                      class="form-select px-4 py-3 bg-gray-100 w-full text-gray-800 text-sm border-none focus:outline-blue-600 focus:bg-transparent rounded-lg"
+                      multiple
+                      aria-label="Select multiple tags">
+                      <?php foreach ($all_tags as $tag) { ?>
+                        <option value="<?= htmlspecialchars($tag['id_tag']); ?>" class="text-gray-900">
+                          <?= htmlspecialchars($tag['tag_name']); ?>
+                        </option>
+                      <?php } ?>
+                    </select>
+
                   </div>
 
                   <!-- Buttons -->

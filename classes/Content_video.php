@@ -70,7 +70,10 @@ function editCourse($id_course,$title, $description, $category_name, $video_url)
     $stmt->execute();
 }
 
-
+function getId_course(){
+    $lastCourseId = $this->connexion->lastInsertId();
+    return $lastCourseId;
+  }
 
 
 

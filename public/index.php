@@ -46,10 +46,16 @@ $getcourseDetail = $course1->allCourses();
 
             <!-- Search -->
             <div class="mt-10 max-w-3xl mx-auto">
-                <div class="flex shadow-lg">
-                    <input type="text" class="flex-1 border-t border-b border-gray-300 px-6 py-4 text-lg" placeholder="Search Your Course...">
-                    <button class="bg-blue-600 text-white px-6 py-4 rounded-r-md text-lg font-semibold hover:bg-blue-700">Search</button>
-                </div>
+
+                <form method="GET" action="">
+                    <div class="flex shadow-lg">
+                        <input type="text" class="flex-1 border-t border-b border-gray-300 px-6 py-4 text-black" placeholder="Search courses..." value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+                        <button type="submit" class="bg-blue-600 text-white px-6 py-4 rounded-r-md text-lg font-semibold hover:bg-blue-700">Search</button>
+                    </div>
+
+                </form>
+
+
             </div>
         </div>
     </div>

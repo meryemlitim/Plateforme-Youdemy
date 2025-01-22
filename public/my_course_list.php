@@ -18,9 +18,7 @@ $get_myCourse = $enrollement->get_my_enrolled_course($id_user);
 
 
 ?>
-
-<?php if ($role == 'student') { ?>
-  <!DOCTYPE html>
+<!DOCTYPE html>
   <html lang="en">
 
   <head>
@@ -34,6 +32,8 @@ $get_myCourse = $enrollement->get_my_enrolled_course($id_user);
 
   <body>
     <?php include "../template/header_user.php" ?>
+<?php if ($role == 'student') { ?>
+  
     <div class="container py-5 px-8"> <!-- Increased padding on container -->
       <div class="flex justify-center mb-5">
         <div class="w-full lg:w-2/3">
@@ -72,12 +72,12 @@ $get_myCourse = $enrollement->get_my_enrolled_course($id_user);
 
     </div>
 
-  </body>
+ 
+<?php } else {?>
+  <?php include "404_page.php" ?>
 
-  </html>
-
-<?php } else {
-  header('location:404_page.php');
-?>
 
 <?php } ?>
+</body>
+
+</html>

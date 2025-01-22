@@ -54,38 +54,44 @@ class tags extends db
         try {
             $sql = "SELECT * FROM tag WHERE id_tag = :id_tag";
             $stmt = $this->connexion->prepare($sql);
-            $stmt->bindParam(':id_tag', $id_tag, PDO::PARAM_INT); // Ensure the parameter type matches
+            $stmt->bindParam(':id_tag', $id_tag, PDO::PARAM_INT); 
             $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC); // Use fetch() for a single row
+            return $stmt->fetch(PDO::FETCH_ASSOC); 
         } catch (PDOException $e) {
-            // Handle and log the error
             echo "Error: " . $e->getMessage();
             return false;
         }
     }
 
 
-    // function editTag($id_tag, $newTag_name) {
-    //     try {
-    //         $query = "UPDATE tag SET tag_name = :newTag_name WHERE id_tag = :id_tag";
-    //         $stmt = $this->connexion->prepare($query);
+    function display_tag(){
+        $sql="SELECT * FROM tag";
+        $stmt=$this->connexion->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
     
-    //         // Bind the parameters
-    //         $stmt->bindParam(':newTag_name', $newTag_name, PDO::PARAM_STR); // Bind newTag_name
-    //         $stmt->bindParam(':id_tag', $id_tag, PDO::PARAM_INT); // Bind id_tag
-    
-    //         // Execute the statement
-    //         $stmt->execute();
-    
-    //         // Optional: Return true for success
-    //         return true;
-    
-    //     } catch (PDOException $e) {
-    //         // Handle errors
-    //         echo "Error: " . $e->getMessage();
-    //         return false;
-    //     }
-    // }
-    
+    function insertTagCourse($id_course,$id_tag){
+        $sql="INSERT INTO tag_course(id_course ,id_tag ) VALUES (:id_course , :id_tag)";
+        $stmt=$this->connexion->prepare($sql);
+        $stmt->bindParam('id_course',$id_course);
+        $stmt->bindParam('id_tag',$id_tag);
+        $stmt->execute();
+
+
+    }
+
+    function getTagCourse($id_course){
+        $sql="SELECT tag_name FROM tag_course
+              join course on course.id_course=tag_course.id_course
+              join tag on tag.id_tag=tag_course.id_tag 
+              where course.id_course=:id_course";
+        $stmt=$this->connexion->prepare($sql);
+        $stmt->bindParam('id_course',$id_course);
+
+        $stmt->execute();
+        return $stmt->fetchAll();
+
+    }
     
 }

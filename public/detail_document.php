@@ -7,8 +7,11 @@ require_once "../classes/Course.php";
 require_once "../classes/Content_video.php";
 require_once "../classes/Countent_document.php";
 require_once "../classes/Enrollement.php";
+require_once "../classes/Tag.php";
 
 $course1 = new content_video();
+$tags = new tags();
+
 $enrollement = new enrollement();
 $user_id = $_SESSION["user_id"] ?? "";
 $role = $_SESSION["role"] ?? "";
@@ -17,6 +20,8 @@ if (isset($_GET['id_course'])) {
 
     $id_course = $_GET['id_course'];
     $getcourseDetail = $course1->getcourseDetail($id_course);
+    $getcourseTag = $tags->getTagCourse($id_course);
+
 }
 if (isset($_POST['course_enrollement'])) {
 
@@ -31,6 +36,13 @@ if (isset($_POST['course_enrollement'])) {
             <?php foreach ($getcourseDetail as $Detail) { ?>
 
                 <h1 class="text-3xl font-bold text-blue-600 mb-4"><?= htmlspecialchars($Detail['title'] ?? '') ?></h1>
+                <div class="flex gap-3 ">
+                    <?php foreach ($getcourseTag as $tag_course) { ?>
+
+                        <div class='bg-gray-400 text-white px-4 py-2 rounded-lg mb-2 inline-block hover:bg-gray-500 cursor-pointer'><?= $tag_course['tag_name'] ?></div>
+                    <?php } ?>
+                </div>
+
                 <p class="text-gray-700 mb-2"><strong>Description:</strong><?= htmlspecialchars($Detail['description'] ?? '') ?></p>
                 <p class="text-gray-700 mb-2"><strong>Created by:</strong> <?= htmlspecialchars($Detail['username'] ?? '') ?></p>
                 <p class="text-gray-700 mb-2"><strong>Category:</strong><?= $Detail["category_name"]; ?></p>
@@ -84,6 +96,13 @@ if (isset($_POST['course_enrollement'])) {
                             </form>
 
                     </div>
+                    <div class="flex gap-3 ">
+                    <?php foreach ($getcourseTag as $tag_course) { ?>
+
+                        <div class='bg-gray-400 text-white px-4 py-2 rounded-lg mb-2 inline-block hover:bg-gray-500 cursor-pointer'><?= $tag_course['tag_name'] ?></div>
+                    <?php } ?>
+                </div>
+
                     <p class="text-gray-700 mb-2"><strong>Description:</strong><?= htmlspecialchars($Detail['description'] ?? '') ?></p>
                     <p class="text-gray-700 mb-2"><strong>Created by:</strong> <?= htmlspecialchars($Detail['username'] ?? '') ?></p>
                     <p class="text-gray-700 mb-2"><strong>Category:</strong><?= $Detail["category_name"]; ?></p>

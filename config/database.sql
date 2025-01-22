@@ -83,8 +83,8 @@ CREATE TABLE tag_course(
     id_course INT NOT NULL,
     id_tag INT NOT NULL,
     PRIMARY KEY (id_course,id_tag),
-    FOREIGN key id_course REFERENCES course(id_course) ON DELETE CASCADE,
-    FOREIGN key id_tag REFERENCES tag(id_tag) ON DELETE CASCADE
+    FOREIGN key (id_course) REFERENCES course(id_course) ON DELETE CASCADE,
+    FOREIGN key (id_tag) REFERENCES tag(id_tag) ON DELETE CASCADE
 );
 
 -- --CONTENT_VIDEO Table

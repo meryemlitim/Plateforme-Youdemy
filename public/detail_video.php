@@ -7,9 +7,11 @@ require_once "../classes/Course.php";
 require_once "../classes/Content_video.php";
 require_once "../classes/Countent_document.php";
 require_once "../classes/Enrollement.php";
+require_once "../classes/Tag.php";
 
 $course1 = new content_video();
 $enrollement = new enrollement();
+$tags = new tags();
 $user_id = $_SESSION["user_id"] ?? "";
 $role = $_SESSION["role"] ?? "";
 
@@ -17,18 +19,34 @@ if (isset($_GET['id_course'])) {
 
     $id_course = $_GET['id_course'];
     $getcourseDetail = $course1->getcourseDetail($id_course);
+    $getcourseTag = $tags->getTagCourse($id_course);
+
 }
+
+
+
 if (isset($_POST['course_enrollement'])) {
 
     $id_course = $_POST['id_course'];
     $insertEnrollement = $enrollement->insertEnrollement($id_course, $user_id);
+
 }
+
+
 ?>
 <?php if ($role == 'teacher') { ?>
     <div class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+
         <div class="w-full max-w-4xl bg-white shadow-lg rounded-lg p-8 relative h-auto"> <!-- Increased max-w-4xl for width and added h-auto -->
             <?php foreach ($getcourseDetail as $Detail) { ?>
                 <h1 class="text-3xl font-bold text-blue-600 mb-4"><?= htmlspecialchars($Detail['title'] ?? '') ?></h1>
+                <div class="flex gap-3 ">
+                    <?php foreach ($getcourseTag as $tag_course) { ?>
+
+                        <div class='bg-gray-400 text-white px-4 py-2 rounded-lg mb-2 inline-block hover:bg-gray-500 cursor-pointer'><?= $tag_course['tag_name'] ?></div>
+                    <?php } ?>
+                </div>
+
                 <p class="text-gray-700 mb-2"><strong>Description:</strong><?= htmlspecialchars($Detail['description'] ?? '') ?></p>
                 <p class="text-gray-700 mb-2"><strong>Created by:</strong> <?= htmlspecialchars($Detail['username'] ?? '') ?></p>
                 <p class="text-gray-700 mb-2"><strong>Category:</strong><?= $Detail["category_name"]; ?></p>
@@ -41,7 +59,10 @@ if (isset($_POST['course_enrollement'])) {
                     </div>
                 </div>
             <?php } ?>
+
         </div>
+
+
     </div>
 
 <?php } else if ($role == 'student') { ?>
@@ -64,6 +85,7 @@ if (isset($_POST['course_enrollement'])) {
                 <?php foreach ($getcourseDetail as $Detail) { ?>
                     <div class="flex justify-between">
                         <h1 class="text-3xl font-bold text-blue-600 mb-4"><?= htmlspecialchars($Detail['title'] ?? '') ?></h1>
+                        
                         <form action="" method="post">
                             <input type="hidden" name="id_course" value="<?= $Detail["id_course"]; ?>">
                             <button type="submit" name="course_enrollement"
@@ -74,9 +96,16 @@ if (isset($_POST['course_enrollement'])) {
                                 </svg>
 
                             </button>
-                            </form>
+                        </form>
 
                     </div>
+
+                    <div class="flex gap-3 ">
+                    <?php foreach ($getcourseTag as $tag_course) { ?>
+
+                        <div class='bg-gray-400 text-white px-4 py-2 rounded-lg mb-2 inline-block hover:bg-gray-500 cursor-pointer'><?= $tag_course['tag_name'] ?></div>
+                    <?php } ?>
+                </div>
                     <p class="text-gray-700 mb-2"><strong>Description:</strong><?= htmlspecialchars($Detail['description'] ?? '') ?></p>
                     <p class="text-gray-700 mb-2"><strong>Created by:</strong> <?= htmlspecialchars($Detail['username'] ?? '') ?></p>
                     <p class="text-gray-700 mb-2"><strong>Category:</strong><?= $Detail["category_name"]; ?></p>

@@ -40,4 +40,10 @@ function addCourse($title,$description,$category_name,$create_by,$type,$document
         $stmt->execute();
     }
 
+    function getId_course(){
+        $lastCourseId = $this->connexion->lastInsertId();
+        return $lastCourseId;
+      }
+    
+
 }
