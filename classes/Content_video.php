@@ -141,6 +141,17 @@ WHERE id_course = :id_course;
         $rst = $stmt->fetch();
         return $rst['total'];
     }
+    function total_course($id_user)
+    {
+        $sql = "SELECT COUNT(*) AS total FROM course join users on id_user=course.create_by where users.id_user = :id_user";
+        $stmt = $this->connexion->prepare($sql);
+        $stmt->bindParam(':id_user', $id_user);
+
+        $stmt->execute();
+
+        $rst = $stmt->fetch();
+        return $rst['total'];
+    }
 
     function getCourseByCategory($category_name)
     {
