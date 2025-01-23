@@ -31,7 +31,7 @@
                         <option value="" disabled selected class="text-gray-900">Category</option>
 
                         <?php foreach ($all_category as $category) { ?>
-                            <option value="<?= $category["category_name"]; ?>" class="text-gray-900"><?= $category["category_name"]; ?> </option>
+                            <option value="<?= $category["id_category"]; ?>" class="text-gray-900"><?= $category["category_name"]; ?> </option>
                         <?php } ?>
                     </select>
                 </div>

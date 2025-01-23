@@ -33,34 +33,22 @@ CREATE TABLE category(
     category_name VARCHAR(50) NOT NULL
 );
 
--- COURSE Table
+
 CREATE TABLE course(
     id_course INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     description TEXT NOT NULL,
-    category_name VARCHAR(255),
+    id_category INT,
+    
     create_by INT NOT NULL,
     type ENUM('video','document') NOT NULL,
     video_url VARCHAR(255), 
     document_text TEXT,
     FOREIGN KEY (create_by) REFERENCES users(id_user) ON DELETE CASCADE,
+    FOREIGN KEY (id_category) REFERENCES category(id_category) ON DELETE CASCADE,
     date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
--- CREATE TABLE course(
---     id_course INT AUTO_INCREMENT PRIMARY KEY,
---     title VARCHAR(100) NOT NULL,
---     description TEXT NOT NULL,
---     id_category INT,
-    
---     create_by INT NOT NULL,
---     type ENUM('video','document') NOT NULL,
---     video_url VARCHAR(255), 
---     document_text TEXT,
---     FOREIGN KEY (create_by) REFERENCES teacher(id_teacher) ON DELETE CASCADE,
---     FOREIGN KEY (id_category) REFERENCES category(id_category) ON DELETE CASCADE,
---     date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
--- );
+);
 
 --ENROLLMENT Table
 CREATE TABLE enrollment(
@@ -87,18 +75,3 @@ CREATE TABLE tag_course(
     FOREIGN key (id_tag) REFERENCES tag(id_tag) ON DELETE CASCADE
 );
 
--- --CONTENT_VIDEO Table
--- CREATE TABLE content_video(
---     id_content INT AUTO_INCREMENT PRIMARY KEY,
---     id_content INT NOT NULL,
---     video_url VARCHAR(255) NOT NULL,
---     FOREIGN KEY (id_course) REFERENCES course(id_course) ON DELETE CASCADE
--- );
-
--- --CONTENT_DOCUMENT Table
--- CREATE TABLE content_document(
---     id_content INT AUTO_INCREMENT PRIMARY KEY,
---     id_content INT NOT NULL,
---     document_text TEXT NOT NULL,
---     FOREIGN KEY (id_course) REFERENCES course(id_course) ON DELETE CASCADE
--- );

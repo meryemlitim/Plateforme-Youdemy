@@ -59,7 +59,22 @@ function totalEnrollement(){
     $rst=$stmt->fetch();
     return $rst['total'];
 }
+function topCourse(){
+    $sql="SELECT 
+course.id_course,
+course.title,
+COUNT(enrollment.id_enrollment) AS total
+FROM course
+JOIN enrollment ON enrollment.id_course=course.id_course
+GROUP BY course.title, course.id_course
+ORDER BY total DESC
+LIMIT 1;";
+    $stmt=$this->connexion->prepare($sql);
 
+    $stmt->execute();
+    $rst=$stmt->fetch();
+    return $rst['title'];
+}
 
 
 

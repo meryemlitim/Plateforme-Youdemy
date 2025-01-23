@@ -27,6 +27,7 @@ $offset = ($page - 1) * $limit; // Calcul de l'offset
 
 // Récupérer les cours filtrés et paginés
 $coursList = $cours->getCoursWithPagination($search, $limit, $offset);
+// print_r($coursList);
 
 // Compter le nombre total de cours correspondant à la recherche
 $totalCours = $cours->countCours($search);
@@ -172,7 +173,7 @@ $totalPages = ceil($totalCours / $limit);
                 behavior: 'smooth'
             });
             }
-            
+
 
         });
     </script>

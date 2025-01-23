@@ -39,9 +39,9 @@ class categries extends db
         try {
             $sql = "SELECT * FROM category WHERE id_category = :id_category";
             $stmt = $this->connexion->prepare($sql);
-            $stmt->bindParam(':id_category', $id_category, PDO::PARAM_INT); // Ensure the parameter type matches
+            $stmt->bindParam(':id_category', $id_category, PDO::PARAM_INT);
             $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC); // Use fetch() for a single row
+            return $stmt->fetch(PDO::FETCH_ASSOC); 
         } catch (PDOException $e) {
             // Handle and log the error
             echo "Error: " . $e->getMessage();

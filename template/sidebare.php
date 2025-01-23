@@ -43,46 +43,38 @@
                             <circle cx="4.029" cy="30.062" r="4.029" data-original="#000000" />
                             <circle cx="4.029" cy="48.661" r="4.029" data-original="#000000" />
                         </svg>
-                        <span>teachers management</span>
+                        <span>Teachers Management</span>
                     </button>
                 </li>
                 <li>
                     <button id="userBtn"
                         class="menu-item text-gray-800 text-sm flex items-center cursor-pointer hover:bg-blue-100 rounded-md px-3 py-3 transition-all duration-300">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-[18px] h-[18px] mr-4"
-                            viewBox="0 0 64 64">
+                            viewBox="0 0 60.123 60.123">
                             <path
-                                d="M16.4 29.594a2.08 2.08 0 0 1 2.08-2.08h31.2a2.08 2.08 0 1 1 0 4.16h-31.2a2.08 2.08 0 0 1-2.08-2.08zm0 12.48a2.08 2.08 0 0 1 2.08-2.08h12.48a2.08 2.08 0 1 1 0 4.16H18.48a2.08 2.08 0 0 1-2.08-2.08z"
+                                d="M57.124 51.893H16.92a3 3 0 1 1 0-6h40.203a3 3 0 0 1 .001 6zm0-18.831H16.92a3 3 0 1 1 0-6h40.203a3 3 0 0 1 .001 6zm0-18.831H16.92a3 3 0 1 1 0-6h40.203a3 3 0 0 1 .001 6z"
                                 data-original="#000000" />
-                            <path fill-rule="evenodd"
-                                d="M.8 18.154c0-8.041 6.519-14.56 14.56-14.56v-1.04a2.08 2.08 0 1 1 4.16 0v1.04h10.4v-1.04a2.08 2.08 0 1 1 4.16 0v1.04h10.4v-1.04a2.08 2.08 0 1 1 4.16 0v1.04c8.041 0 14.56 6.519 14.56 14.56v30.16c0 8.041-6.519 14.56-14.56 14.56H15.36C7.319 62.874.8 56.355.8 48.314zm33.28-10.4h10.4v1.04a2.08 2.08 0 1 0 4.16 0v-1.04c5.744 0 10.4 4.656 10.4 10.4v30.16c0 5.744-4.656 10.4-10.4 10.4H15.36c-5.744 0-10.4-4.656-10.4-10.4v-30.16c0-5.744 4.656-10.4 10.4-10.4v1.04a2.08 2.08 0 1 0 4.16 0v-1.04h10.4v1.04a2.08 2.08 0 1 0 4.16 0z"
-                                clip-rule="evenodd" data-original="#000000" />
+                            <circle cx="4.029" cy="11.463" r="4.029" data-original="#000000" />
+                            <circle cx="4.029" cy="30.062" r="4.029" data-original="#000000" />
+                            <circle cx="4.029" cy="48.661" r="4.029" data-original="#000000" />
                         </svg>
-                        <span>students management</span>
+                        <span>Students Management</span>
                     </button>
                 </li>
                 <li>
-                    <a href="javascript:void(0)"
+                <button id="courseBtn"
                         class="menu-item text-gray-800 text-sm flex items-center cursor-pointer hover:bg-blue-100 rounded-md px-3 py-3 transition-all duration-300">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-[18px] h-[18px] mr-4"
-                            viewBox="0 0 682.667 682.667">
-                            <defs>
-                                <clipPath id="a" clipPathUnits="userSpaceOnUse">
-                                    <path d="M0 512h512V0H0Z" data-original="#000000" />
-                                </clipPath>
-                            </defs>
-                            <g fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
-                                stroke-width="30" clip-path="url(#a)" transform="matrix(1.33333 0 0 -1.33333 0 682.667)">
-                                <path
-                                    d="M368 170.3V45c0-16.57-13.43-30-30-30H45c-16.57 0-30 13.43-30 30v422c0 16.571 13.43 30 30 30h293c16.57 0 30-13.429 30-30V261.26"
-                                    data-original="#000000" />
-                                <path
-                                    d="m287.253 180.508 159.099 159.099c5.858 5.858 15.355 5.858 21.213 0l25.042-25.041c5.858-5.859 5.858-15.356 0-21.214L332.508 135.253l-84.853-39.599ZM411.703 304.958l45.255-45.255M80 400h224M80 320h176M80 240h128"
-                                    data-original="#000000" />
-                            </g>
+                            viewBox="0 0 60.123 60.123">
+                            <path
+                                d="M57.124 51.893H16.92a3 3 0 1 1 0-6h40.203a3 3 0 0 1 .001 6zm0-18.831H16.92a3 3 0 1 1 0-6h40.203a3 3 0 0 1 .001 6zm0-18.831H16.92a3 3 0 1 1 0-6h40.203a3 3 0 0 1 .001 6z"
+                                data-original="#000000" />
+                            <circle cx="4.029" cy="11.463" r="4.029" data-original="#000000" />
+                            <circle cx="4.029" cy="30.062" r="4.029" data-original="#000000" />
+                            <circle cx="4.029" cy="48.661" r="4.029" data-original="#000000" />
                         </svg>
-                        <span>courses management </span>
-                    </a>
+                        <span>Courses Management</span>
+                    </button>
                 </li>
                 <!-- ------------------- -->
                 <li>
@@ -97,7 +89,7 @@
                             <circle cx="4.029" cy="30.062" r="4.029" data-original="#000000" />
                             <circle cx="4.029" cy="48.661" r="4.029" data-original="#000000" />
                         </svg>
-                        <span>Tags management </span>
+                        <span>Tags Management </span>
                     </button>
                 </li>
                 <!-- ------------------- -->
@@ -114,7 +106,7 @@
                             <circle cx="4.029" cy="30.062" r="4.029" data-original="#000000" />
                             <circle cx="4.029" cy="48.661" r="4.029" data-original="#000000" />
                         </svg>
-                        <span>Categories management </span>
+                        <span>Categories Management </span>
                     </button>
                 </li>
                 <!-- ------------------- -->

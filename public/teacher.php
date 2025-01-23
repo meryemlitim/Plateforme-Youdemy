@@ -34,9 +34,9 @@ if (isset($_POST['add_courses_video'])) {
   $description = $_POST['course_description'];
   $video_url = $_POST['course_content_video'];
   $create_by = $user_id;
-  $category_name = $_POST['course_category'];
+  $id_category = $_POST['course_category'];
 
-  $course1->addCourse($title, $description, $category_name, $create_by, $type, $video_url);
+  $course1->addCourse($title, $description, $id_category, $create_by, $type, $video_url);
   $id_course=$course1->getId_course();
   if(!empty($_POST['tags'])){
     foreach($_POST['tags'] as $id_tag){
@@ -52,9 +52,9 @@ if (isset($_POST['add_courses_document'])) {
   $description = $_POST['course_description'];
   $document_text = $_POST['course_content_document'];
   $create_by = $user_id;
-  $category_name = $_POST['course_category'];
+  $id_category = $_POST['course_category'];
  
-  $course->addCourse($title, $description, $category_name, $create_by, $type, $document_text);
+  $course->addCourse($title, $description, $id_category, $create_by, $type, $document_text);
   $id_course=$course->getId_course();
   if(!empty($_POST['tags'])){
     foreach($_POST['tags'] as $id_tag){
@@ -411,7 +411,7 @@ if (isset($_POST['course_document_detail'])) {
                       <option value="" disabled selected class="text-gray-900">Category</option>
 
                       <?php foreach ($all_category as $category) { ?>
-                        <option value="<?= $category["category_name"]; ?>" class="text-gray-900"><?= $category["category_name"]; ?> </option>
+                        <option value="<?= $category["id_category"]; ?>" class="text-gray-900"><?= $category["category_name"]; ?> </option>
                       <?php } ?>
                     </select>
                   </div>
@@ -514,7 +514,7 @@ if (isset($_POST['course_document_detail'])) {
                       <option value="" disabled selected class="text-gray-900">Category</option>
 
                       <?php foreach ($all_category as $category) { ?>
-                        <option value="<?= $category["category_name"]; ?>" class="text-gray-900"><?= $category["category_name"]; ?> </option>
+                        <option value="<?= $category["id_category"]; ?>" class="text-gray-900"><?= $category["category_name"]; ?> </option>
                       <?php } ?>
                     </select>
                   </div>

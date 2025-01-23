@@ -10,13 +10,13 @@ class content_document extends courses {
         parent::__construct(); 
     }
 
-function addCourse($title,$description,$category_name,$create_by,$type,$document_text){
+function addCourse($title,$description,$id_category,$create_by,$type,$document_text){
 
-        $sql = "INSERT INTO course (title , description,category_name,create_by,type ,document_text) VALUES (:title , :description , :category_name , :create_by , :type ,:document_text)";
+        $sql = "INSERT INTO course (title , description,id_category,create_by,type ,document_text) VALUES (:title , :description , :id_category , :create_by , :type ,:document_text)";
         $stmt = $this->connexion->prepare($sql);
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':description', $description);
-        $stmt->bindParam(':category_name', $category_name);
+        $stmt->bindParam(':id_category', $id_category);
         $stmt->bindParam(':create_by', $create_by);
         $stmt->bindParam(':type', $type);
         $stmt->bindParam(':document_text', $document_text);
@@ -29,13 +29,13 @@ function addCourse($title,$description,$category_name,$create_by,$type,$document
         return $stmt->fetchAll();
     }
 
-    function editCourse($id_course,$title, $description, $category_name, $document_text){
-        $query="UPDATE course SET title = :title , description= :description ,category_name= :category_name ,document_text= :document_text  where id_course = :id_course";
+    function editCourse($id_course,$title, $description, $id_category, $document_text){
+        $query="UPDATE course SET title = :title , description= :description ,id_category= :id_category ,document_text= :document_text  where id_course = :id_course";
         $stmt=$this->connexion->prepare($query);
         $stmt->bindParam(':id_course', $id_course);
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':description', $description);
-        $stmt->bindParam(':category_name', $category_name);
+        $stmt->bindParam(':id_category', $id_category);
         $stmt->bindParam(':document_text', $document_text);
         $stmt->execute();
     }
